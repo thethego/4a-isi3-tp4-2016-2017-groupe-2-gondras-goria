@@ -31,15 +31,15 @@ fonctionnalité pourra être supprimée lors du *refactoring*).
 
 #### Question 2
 
-*Proposer un refactoring du code de cette application de sorte à appli-
-quer l’architecture MVC en trois couches : Modèle, Vue, Contrôleur (pas de fusion du
+*Proposer un refactoring du code de cette application de sorte à appliquer
+l’architecture MVC en trois couches : Modèle, Vue, Contrôleur (pas de fusion du
 contrôleur et de la vue). Pour cela, vous devez réorganiser les éléments de l’application
 en trois package. Les changements dans le modèle métier (déplacements de la tortue)
 devront être répercutés dans l’affichage. L’utilisation de l’IHM (boutons) entrainera des
 changements dans le modèle métier en passant par le contrôleur.*
 
-**La couche Modèle devra être indépendante de tout aspect graphique. Votre conception de-
-vra aussi permettre d’ajouter facilement d’autres formes pour les tortues
+**La couche Modèle devra être indépendante de tout aspect graphique. Votre conception devra
+aussi permettre d’ajouter facilement d’autres formes pour les tortues
 (cercle, polygone, ...).**
 
 Le diagramme de classes obtenu après refactoring devra être mis dans votre compte-rendu. 
