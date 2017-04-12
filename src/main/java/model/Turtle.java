@@ -123,4 +123,8 @@ public class Turtle extends Observable {
             n = n+1;
         }
     }
+
+    public ArrayList<Segment> getSegments() {
+        return segments;
+    }
 }
