@@ -127,4 +127,24 @@ public class Turtle extends Observable {
     public ArrayList<Segment> getSegments() {
         return segments;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getDir() {
+        return dir;
+    }
+
+    public boolean isCrayon() {
+        return crayon;
+    }
+
+    public static double getRatioDegRad() {
+        return ratioDegRad;
+    }
 }
