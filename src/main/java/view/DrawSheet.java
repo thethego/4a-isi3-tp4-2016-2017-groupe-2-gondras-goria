@@ -7,5 +7,6 @@ import java.util.ArrayList;
  */
 public class DrawSheet {
     private ArrayList<TurtleView> turtleViews;
+    private TurtleView currentTurtleView;
 
 }
