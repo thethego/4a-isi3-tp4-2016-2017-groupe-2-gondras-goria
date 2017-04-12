@@ -81,7 +81,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 JComboBox cb = (JComboBox)e.getSource();
                 int n = cb.getSelectedIndex();
-                controller.setColor(n);
+//                controller.setColor(n);
             }
         });
 
