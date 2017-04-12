@@ -1,11 +1,12 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * Created by theo on 12/04/17.
  */
-public class Turtle {
+public class Turtle extends Observable {
 
     protected static final double ratioDegRad = 0.0174533; // Rapport radians/degres (pour la conversion)
 
@@ -34,25 +35,25 @@ public class Turtle {
         y = newY;
     }
 
-    private synchronized void reset() {
+    public synchronized void reset() {
         x = 0;
         y = 0;
         dir = -90;
         color = 0;
         crayon = true;
         segments.clear();
-        notifyAll();
+        notifyObservers();
     }
 
-    private synchronized void setPosition(int newX, int newY) {
+    public synchronized void setPosition(int newX, int newY) {
         x = newX;
         y = newY;
-        notifyAll();
+        notifyObservers();
     }
 
-    private synchronized void setDir(int newDir){
+    public synchronized void setDir(int newDir){
         dir = newDir;
-        notifyAll();
+        notifyObservers();
     }
 
     public void avancer(int dist) {
