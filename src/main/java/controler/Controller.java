@@ -3,6 +3,7 @@ package controler;
 import model.Turtle;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by theo on 12/04/17.
@@ -42,10 +43,18 @@ public class Controller {
     }
 
     public void poly(){
-        currentTurtle.poly(60,8);;
+        currentTurtle.poly(60,8);
     }
 
     public void spiral(){
         currentTurtle.spiral(50,40,6);
+    }
+
+    public void reset(int newX, int newY){
+        for (Iterator it = turtles.iterator(); it.hasNext();) {
+            Turtle t = (Turtle) it.next();
+            t.reset();
+        }
+        currentTurtle.setPosition(newX,newY);
     }
 }
