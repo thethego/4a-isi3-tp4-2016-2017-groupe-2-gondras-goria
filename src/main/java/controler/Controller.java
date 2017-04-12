@@ -11,9 +11,10 @@ public class Controller {
     private Turtle currentTurtle;
     private ArrayList<Turtle> turtles;
 
-    public Controller(Turtle currentTurtle, ArrayList<Turtle> turtles) {
+    public Controller(Turtle currentTurtle) {
         this.currentTurtle = currentTurtle;
-        this.turtles = turtles;
+        this.turtles = new ArrayList<Turtle>();
+        this.turtles.add(currentTurtle);
     }
 
     public void moveForward(int inputValue){
