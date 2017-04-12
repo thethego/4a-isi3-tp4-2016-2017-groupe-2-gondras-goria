@@ -10,4 +10,41 @@ import java.util.ArrayList;
 public class Controller {
     private Turtle currentTurtle;
     private ArrayList<Turtle> turtles;
+
+    public Controller(Turtle currentTurtle, ArrayList<Turtle> turtles) {
+        this.currentTurtle = currentTurtle;
+        this.turtles = turtles;
+    }
+
+    public void moveForward(int inputValue){
+        currentTurtle.avancer(inputValue);
+    }
+
+    public void right(int inputValue){
+        currentTurtle.droite(inputValue);
+    }
+
+    public void left(int inputValue){
+        currentTurtle.gauche(inputValue);
+    }
+
+    public void pencilUp(){
+        currentTurtle.leverCrayon();
+    }
+
+    public void pencilDown(){
+        currentTurtle.baisserCrayon();
+    }
+
+    public void square(){
+        currentTurtle.carre();
+    }
+
+    public void poly(){
+        currentTurtle.poly(60,8);;
+    }
+
+    public void spiral(){
+        currentTurtle.spiral(50,40,6);
+    }
 }
