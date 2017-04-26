@@ -1,7 +1,6 @@
 package view;
 
 import model.Turtle;
-import old.Tortue;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,7 +61,12 @@ public class DrawSheet extends JPanel implements Observer {
         }
     }
 
-    public void update(Observable o, Object arg) {
+    public void update(Observable o, Object arg){
+        if(arg instanceof Turtle){
+            TurtleView tView = new TurtleView((Turtle)arg);
+            turtleViews.add(tView);
+            currentTurtleView = tView;
+        }
         this.repaint();
     }
 }

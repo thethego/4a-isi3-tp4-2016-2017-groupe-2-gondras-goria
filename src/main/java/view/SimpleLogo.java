@@ -1,7 +1,7 @@
 package view;
 
 import controler.Controller;
-import model.Turtle;
+import model.Model;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,6 +61,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
         addButton(toolBar, "Gauche", "Gauche 45", null);
         addButton(toolBar, "Lever", "Lever Crayon", null);
         addButton(toolBar, "Baisser", "Baisser Crayon", null);
+        addButton(toolBar,"Ajouter","Ajouter une tortue",null);
 
         String[] colorStrings = {"noir", "bleu", "cyan","gris fonce","rouge",
                 "vert", "gris clair", "magenta", "orange",
@@ -128,16 +129,14 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
         getContentPane().add(this.sheet,"Center");
 
-        // Creation de la tortue
-        Turtle turtle = new Turtle();
-
-        // Deplacement de la tortue au centre de la feuille
-        turtle.setPosition(500/2, 400/2);
-
-        this.sheet.addTurtle(turtle);
+        // Creation du model
+        Dimension size = sheet.getSize();
+        Model model = new Model((size.getWidth()+45)/2,size.getHeight()/2);
+        model.addObserver(this.sheet);
+        this.sheet.update(model,model.getCurrentTurtle());
 
         // On créé le controleur des tortues
-        this.controller = new Controller(turtle);
+        this.controller = new Controller(model);
 
         pack();
         setVisible(true);
@@ -148,7 +147,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
     {
         Dimension size = sheet.getSize();
         controller.handleAction(e.getActionCommand(),inputValue.getText(),size.getWidth(),size.getHeight());
-        this.sheet.repaint();
+//        this.sheet.repaint();
     }
 
 

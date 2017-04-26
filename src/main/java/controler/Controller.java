@@ -1,5 +1,6 @@
 package controler;
 
+import model.Model;
 import model.Turtle;
 
 import java.util.ArrayList;
@@ -9,14 +10,16 @@ import java.util.Iterator;
  * Created by theo on 12/04/17.
  */
 public class Controller {
-    private Turtle currentTurtle;
-    private ArrayList<Turtle> turtles;
+    Model model;
 
-    public Controller(Turtle currentTurtle) {
-        this.currentTurtle = currentTurtle;
-        this.turtles = new ArrayList<Turtle>();
-        this.turtles.add(currentTurtle);
+    public Controller(Model model){
+        this.model = model;
     }
+
+    public Controller() {
+        this(new Model());
+    }
+
 
     public void handleAction(String c,String inputValue,double width,double height){
         if (c.equals("Avancer")) {
@@ -46,6 +49,8 @@ public class Controller {
             this.pencilUp();
         else if (c.equals("Baisser"))
             this.pencilDown();
+        else if (c.equals("Ajouter"))
+            this.addTurtle(width/2, height/2);
             // actions des boutons du bas
         else if (c.equals("Proc1"))
             this.square();
@@ -60,42 +65,42 @@ public class Controller {
     }
 
     public void moveForward(int inputValue){
-        currentTurtle.avancer(inputValue);
+        model.avancer(inputValue);
     }
 
     public void right(int inputValue){
-        currentTurtle.droite(inputValue);
+        model.droite(inputValue);
     }
 
     public void left(int inputValue){
-        currentTurtle.gauche(inputValue);
+        model.gauche(inputValue);
     }
 
     public void pencilUp(){
-        currentTurtle.leverCrayon();
+        model.leverCrayon();
     }
 
     public void pencilDown(){
-        currentTurtle.baisserCrayon();
+        model.baisserCrayon();
+    }
+
+    public void addTurtle(double newX, double newY){
+        model.addTurtle(newX,newY);
     }
 
     public void square(){
-        currentTurtle.carre();
+        model.carre();
     }
 
     public void poly(){
-        currentTurtle.poly(60,8);
+        model.poly(60,8);
     }
 
     public void spiral(){
-        currentTurtle.spiral(50,40,6);
+        model.spiral(50,40,6);
     }
 
     public void reset(double newX, double newY){
-        for (Iterator it = turtles.iterator(); it.hasNext();) {
-            Turtle t = (Turtle) it.next();
-            t.reset();
-        }
-        currentTurtle.setPosition((int)newX,(int)newY);
+        model.reset(newX, newY);
     }
 }

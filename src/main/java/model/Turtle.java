@@ -6,7 +6,7 @@ import java.util.Observable;
 /**
  * Created by theo on 12/04/17.
  */
-public class Turtle extends Observable {
+public class Turtle{
 
     protected static final double ratioDegRad = 0.0174533; // Rapport radians/degres (pour la conversion)
 
@@ -16,6 +16,18 @@ public class Turtle extends Observable {
     protected boolean crayon;
     protected int color;
 
+    public Turtle() {
+        this(0,0);
+    }
+
+    public Turtle(int newX, int newY) {
+        segments = new ArrayList<Segment>();
+        reset();
+        x = newX;
+        y = newY;
+
+    }
+
     public void setColor(int n) {
         color = n;
     }
@@ -24,36 +36,22 @@ public class Turtle extends Observable {
         return color;
     }
 
-    public Turtle() {
-        segments = new ArrayList<Segment>();
-        reset();
-    }
-
-    public Turtle(int newX, int newY) {
-        this();
-        x = newX;
-        y = newY;
-    }
-
-    public synchronized void reset() {
+    public void reset() {
         x = 0;
         y = 0;
         dir = -90;
         color = 0;
         crayon = true;
         segments.clear();
-        notifyObservers();
     }
 
-    public synchronized void setPosition(int newX, int newY) {
+    public void setPosition(int newX, int newY) {
         x = newX;
         y = newY;
-        notifyObservers();
     }
 
-    public synchronized void setDir(int newDir){
+    public void setDir(int newDir){
         dir = newDir;
-        notifyObservers();
     }
 
     public void avancer(int dist) {
