@@ -28,10 +28,6 @@ public class SimpleLogo extends JFrame implements ActionListener {
         });
     }
 
-    private void quitter() {
-        System.exit(0);
-    }
-
     public SimpleLogo() {
         super("un logo tout simple");
         logoInit();
@@ -150,75 +146,11 @@ public class SimpleLogo extends JFrame implements ActionListener {
     /** la gestion des actions des boutons */
     public void actionPerformed(ActionEvent e)
     {
-        String c = e.getActionCommand();
-
-        // actions des boutons du haut
-        if (c.equals("Avancer")) {
-            System.out.println("command avancer");
-            try {
-                int v = Integer.parseInt(inputValue.getText());
-                this.controller.moveForward(v);
-            } catch (NumberFormatException ex){
-                System.err.println("ce n'est pas un nombre : " + inputValue.getText());
-            }
-
-        }
-        else if (c.equals("Droite")) {
-            try {
-                int v = Integer.parseInt(inputValue.getText());
-                this.controller.right(v);
-            } catch (NumberFormatException ex){
-                System.err.println("ce n'est pas un nombre : " + inputValue.getText());
-            }
-        }
-        else if (c.equals("Gauche")) {
-            try {
-                int v = Integer.parseInt(inputValue.getText());
-                this.controller.left(v);
-            } catch (NumberFormatException ex){
-                System.err.println("ce n'est pas un nombre : " + inputValue.getText());
-            }
-        }
-        else if (c.equals("Lever"))
-            this.controller.pencilUp();
-        else if (c.equals("Baisser"))
-            this.controller.pencilDown();
-            // actions des boutons du bas
-        else if (c.equals("Proc1"))
-            proc1();
-        else if (c.equals("Proc2"))
-            proc2();
-        else if (c.equals("Proc3"))
-            proc3();
-        else if (c.equals("Effacer"))
-            effacer();
-        else if (c.equals("Quitter"))
-            quitter();
-
+        Dimension size = sheet.getSize();
+        controller.handleAction(e.getActionCommand(),inputValue.getText(),size.getWidth(),size.getHeight());
         this.sheet.repaint();
     }
 
-    /** les procedures Logo qui combine plusieurs commandes..*/
-    public void proc1() {
-        this.controller.square();
-    }
-
-    public void proc2() {
-        this.controller.poly();
-    }
-
-    public void proc3() {
-        this.controller.spiral();
-    }
-
-    // efface tout et reinitialise la feuille
-    public void effacer() {
-        // Replace la tortue au centre
-        Dimension size = this.sheet.getSize();
-        this.controller.reset(size.width/2, size.height/2);
-
-        this.sheet.repaint();
-    }
 
     //utilitaires pour installer des boutons et des menus
     public void addButton(JComponent p, String name, String tooltiptext, String imageName) {

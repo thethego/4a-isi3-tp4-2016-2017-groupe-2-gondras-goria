@@ -1,6 +1,6 @@
-**Nom/Prénom Etudiant 1 :**
+**GONDRAS Pierre-louis :**
 
-**Nom/Prénom Etudiant 2 :**
+**GORIA Théo :**
 
 # Rapport TP4
 

@@ -18,6 +18,47 @@ public class Controller {
         this.turtles.add(currentTurtle);
     }
 
+    public void handleAction(String c,String inputValue,double width,double height){
+        if (c.equals("Avancer")) {
+            System.out.println("command avancer");
+            try {
+                this.moveForward(Integer.parseInt(inputValue));
+            } catch (NumberFormatException ex){
+                System.err.println("ce n'est pas un nombre : " + inputValue);
+            }
+
+        }
+        else if (c.equals("Droite")) {
+            try {
+                this.right(Integer.parseInt(inputValue));
+            } catch (NumberFormatException ex){
+                System.err.println("ce n'est pas un nombre : " + inputValue);
+            }
+        }
+        else if (c.equals("Gauche")) {
+            try {
+                this.left(Integer.parseInt(inputValue));
+            } catch (NumberFormatException ex){
+                System.err.println("ce n'est pas un nombre : " + inputValue);
+            }
+        }
+        else if (c.equals("Lever"))
+            this.pencilUp();
+        else if (c.equals("Baisser"))
+            this.pencilDown();
+            // actions des boutons du bas
+        else if (c.equals("Proc1"))
+            this.square();
+        else if (c.equals("Proc2"))
+            this.poly();
+        else if (c.equals("Proc3"))
+            this.spiral();
+        else if (c.equals("Effacer"))
+            this.reset(width/2, height/2);
+        else if (c.equals("Quitter"))
+            System.exit(0);
+    }
+
     public void moveForward(int inputValue){
         currentTurtle.avancer(inputValue);
     }
@@ -50,11 +91,11 @@ public class Controller {
         currentTurtle.spiral(50,40,6);
     }
 
-    public void reset(int newX, int newY){
+    public void reset(double newX, double newY){
         for (Iterator it = turtles.iterator(); it.hasNext();) {
             Turtle t = (Turtle) it.next();
             t.reset();
         }
-        currentTurtle.setPosition(newX,newY);
+        currentTurtle.setPosition((int)newX,(int)newY);
     }
 }
