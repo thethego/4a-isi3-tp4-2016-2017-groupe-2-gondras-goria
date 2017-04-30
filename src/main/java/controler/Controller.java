@@ -103,4 +103,8 @@ public class Controller {
     public void reset(double newX, double newY){
         model.reset(newX, newY);
     }
+
+    public void setColor(int color){
+        model.setColor(color);
+    }
 }

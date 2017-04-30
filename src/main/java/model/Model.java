@@ -10,9 +10,11 @@ import java.util.Observable;
 public class Model  extends Observable {
     private Turtle currentTurtle;
     private ArrayList<Turtle> turtles;
+    private int color;
 
     public Model(double x, double y) {
         this.turtles = new ArrayList<Turtle>();
+        this.color = 0;
         this.addTurtle(x,y);
     }
 
@@ -37,6 +39,7 @@ public class Model  extends Observable {
 
     public synchronized void addTurtle(double newX, double newY){
         this.currentTurtle = new Turtle((int)newX,(int)newY);
+        this.currentTurtle.setColor(color);
         this.turtles.add(currentTurtle);
         notifyView(currentTurtle);
     }
@@ -79,6 +82,11 @@ public class Model  extends Observable {
     public void spiral(int n, int k, int a) {
         this.currentTurtle.spiral(n,k,a);
         notifyView();
+    }
+
+    public void setColor(int color){
+        this.color = color;
+        currentTurtle.setColor(color);
     }
 
     public void reset(double newX, double newY){

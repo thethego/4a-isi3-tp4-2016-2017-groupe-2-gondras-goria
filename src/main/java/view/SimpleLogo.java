@@ -78,7 +78,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 JComboBox cb = (JComboBox)e.getSource();
                 int n = cb.getSelectedIndex();
-//                controller.setColor(n);
+                controller.setColor(n);
             }
         });
 
@@ -146,6 +146,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e)
     {
         Dimension size = sheet.getSize();
+        System.out.println(e.getActionCommand());
         controller.handleAction(e.getActionCommand(),inputValue.getText(),size.getWidth(),size.getHeight());
 //        this.sheet.repaint();
     }

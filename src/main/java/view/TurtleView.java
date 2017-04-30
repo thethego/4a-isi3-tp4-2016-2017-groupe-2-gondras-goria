@@ -2,7 +2,6 @@ package view;
 
 import model.Segment;
 import model.Turtle;
-import old.Tortue;
 
 import java.awt.*;
 import java.util.Iterator;
