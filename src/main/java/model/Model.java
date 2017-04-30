@@ -101,6 +101,19 @@ public class Model  extends Observable {
         return currentTurtle;
     }
 
+    public void setCurrentTurtle (Turtle turtle){
+        this.currentTurtle=turtle;
+    }
+
+    public void setCurrentTurtle(int X, int Y){
+        for(Turtle turtle : turtles) {
+            if (Math.sqrt(Math.pow(turtle.getX() - X, 2) + Math.pow(turtle.getY() - Y, 2)) < 10) {
+                currentTurtle = turtle;
+                break;
+            }
+        }
+    }
+
     public void notifyView(Object arg){
         setChanged();
         notifyObservers(arg);

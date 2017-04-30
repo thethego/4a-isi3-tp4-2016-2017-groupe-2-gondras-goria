@@ -4,6 +4,9 @@ import model.Turtle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -14,7 +17,6 @@ import java.util.Observer;
  */
 public class DrawSheet extends JPanel implements Observer {
     private ArrayList<TurtleView> turtleViews;
-    private TurtleView currentTurtleView;
 
     public DrawSheet() {
         turtleViews = new ArrayList<TurtleView>();
@@ -31,14 +33,6 @@ public class DrawSheet extends JPanel implements Observer {
     public void addTurtle(Turtle turtle){
         TurtleView turtleView = new TurtleView(turtle);
         this.turtleViews.add(turtleView);
-    }
-
-    public TurtleView getCurrentTurtleView() {
-        return currentTurtleView;
-    }
-
-    public void setCurrentTurtleView(TurtleView currentTurtleView) {
-        this.currentTurtleView = currentTurtleView;
     }
 
     public void paintComponent(Graphics g) {
@@ -61,11 +55,14 @@ public class DrawSheet extends JPanel implements Observer {
         }
     }
 
+    public void findTurtle(int X, int Y){
+
+    }
+
     public void update(Observable o, Object arg){
         if(arg instanceof Turtle){
             TurtleView tView = new TurtleView((Turtle)arg);
             turtleViews.add(tView);
-            currentTurtleView = tView;
         }
         this.repaint();
     }

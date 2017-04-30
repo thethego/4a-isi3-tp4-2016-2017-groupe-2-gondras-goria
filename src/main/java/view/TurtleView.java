@@ -4,12 +4,14 @@ import model.Segment;
 import model.Turtle;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Iterator;
 
 /**
  * Created by theo on 12/04/17.
  */
-public class TurtleView {
+public class TurtleView{
     protected static final int rp=10, rb=5; // Taille de la pointe et de la base de la fleche
     private Turtle turtle;
 
@@ -89,5 +91,13 @@ public class TurtleView {
 
         graph.setColor(decodeColor(seg.getColor()));
         graph.drawLine(seg.getPtStart().getX(), seg.getPtStart().getY(), seg.getPtEnd().getX(), seg.getPtEnd().getY());
+    }
+
+    public int getX(){
+        return turtle.getX();
+    }
+
+    public int getY(){
+        return turtle.getY();
     }
 }

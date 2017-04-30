@@ -126,6 +126,18 @@ public class SimpleLogo extends JFrame implements ActionListener {
         this.sheet.setBackground(Color.white);
         this.sheet.setSize(new Dimension(600,400));
         this.sheet.setPreferredSize(new Dimension(600,400));
+        this.sheet.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                controller.changeTurtle(e.getX(),e.getY());
+                /*for(TurtleView turtle : turtleViews){
+                    if(Math.sqrt(Math.pow(turtle.getX() - e.getX(),2) + Math.pow(turtle.getY() - e.getY(),2)) < TurtleView.rp){
+                        currentTurtleView = turtle;
+                        System.out.println("click");
+                        break;
+                    }
+                }*/
+            }
+        });
 
         getContentPane().add(this.sheet,"Center");
 
