@@ -79,10 +79,16 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
         toolBar.add(Box.createRigidArea(this.HGAP));
         this.inputValue=new JTextField("45",5);
+        if(mode != 1){
+            this.inputValue.setVisible(false);
+        }
         toolBar.add(this.inputValue);
-        addButton(toolBar, "Avancer", "Avancer 50", null);
-        addButton(toolBar, "Droite", "Droite 45", null);
-        addButton(toolBar, "Gauche", "Gauche 45", null);
+        if(mode==1) {
+            addButton(toolBar, "Avancer", "Avancer 50", null);
+            addButton(toolBar, "Droite", "Droite 45", null);
+            addButton(toolBar, "Gauche", "Gauche 45", null);
+        }
+
         addButton(toolBar, "Lever", "Lever Crayon", null);
         addButton(toolBar, "Baisser", "Baisser Crayon", null);
         addButton(toolBar,"Ajouter","Ajouter une tortue",null);
@@ -118,9 +124,11 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
         JMenu menuCommandes=new JMenu("Commandes"); // on installe le premier menu
         menubar.add(menuCommandes);
-        addMenuItem(menuCommandes, "Avancer", "Avancer", -1);
-        addMenuItem(menuCommandes, "Droite", "Droite", -1);
-        addMenuItem(menuCommandes, "Gauche", "Gauche", -1);
+        if(mode == 1){
+            addMenuItem(menuCommandes, "Avancer", "Avancer", -1);
+            addMenuItem(menuCommandes, "Droite", "Droite", -1);
+            addMenuItem(menuCommandes, "Gauche", "Gauche", -1);
+        }
         addMenuItem(menuCommandes, "Lever Crayon", "Lever", -1);
         addMenuItem(menuCommandes, "Baisser Crayon", "Baisser", -1);
 
@@ -132,18 +140,21 @@ public class SimpleLogo extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // les boutons du bas
-        JPanel p2 = new JPanel(new GridLayout());
-        JButton b20 = new JButton("Proc1");
-        p2.add(b20);
-        b20.addActionListener(this);
-        JButton b21 = new JButton("Proc2");
-        p2.add(b21);
-        b21.addActionListener(this);
-        JButton b22 = new JButton("Proc3");
-        p2.add(b22);
-        b22.addActionListener(this);
+        if(mode == 1){
+            JPanel p2 = new JPanel(new GridLayout());
+            JButton b20 = new JButton("Proc1");
+            p2.add(b20);
+            b20.addActionListener(this);
+            JButton b21 = new JButton("Proc2");
+            p2.add(b21);
+            b21.addActionListener(this);
+            JButton b22 = new JButton("Proc3");
+            p2.add(b22);
+            b22.addActionListener(this);
 
-        getContentPane().add(p2,"South");
+            getContentPane().add(p2,"South");
+
+        }
 
         // Création de la feuille de dessin
         this.sheet = new DrawSheet();
@@ -155,13 +166,6 @@ public class SimpleLogo extends JFrame implements ActionListener {
         this.sheet.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 controller.changeTurtle(e.getX(),e.getY());
-                /*for(TurtleView turtle : turtleViews){
-                    if(Math.sqrt(Math.pow(turtle.getX() - e.getX(),2) + Math.pow(turtle.getY() - e.getY(),2)) < TurtleView.rp){
-                        currentTurtleView = turtle;
-                        System.out.println("click");
-                        break;
-                    }
-                }*/
             }
         });
 
@@ -169,7 +173,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
         // Creation du model
         Dimension size = sheet.getSize();
-        Model model = new Model(width,height);
+        Model model = new Model(width,height,mode);
         model.addObserver(this.sheet);
         this.sheet.update(model,model.getCurrentTurtle());
 

@@ -20,8 +20,6 @@ public class Turtle{
     }
 
     public Turtle(int newX, int newY) {
-        System.out.println(newX);
-        System.out.println(newY);
         segments = new ArrayList<Segment>();
         reset();
         x = newX;
@@ -56,7 +54,6 @@ public class Turtle{
     }
 
     public void forward(int dist, int width, int height) {
-        System.out.println(dir);
         int realX = (int) Math.round(x+dist*Math.cos(ratioDegRad*dir));
         int realY = (int) Math.round(y+dist*Math.sin(ratioDegRad*dir));
         int endX = realX;

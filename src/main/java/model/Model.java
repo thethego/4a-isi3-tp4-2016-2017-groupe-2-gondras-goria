@@ -12,15 +12,15 @@ public class Model  extends Observable {
     private ArrayList<Turtle> turtles;
     private int height,width;
     private int color;
+    private int mode;
 
-    public Model(int width, int height) {
+    public Model(int width, int height, int mode) {
         this.turtles = new ArrayList<Turtle>();
         this.color = 0;
+        this.width = width;
+        this.height = height;
+        this.mode = mode;
         this.addTurtle();
-    }
-
-    public Model() {
-        this(10,10);
     }
 
     public synchronized void setPosition(double newX, double newY) {
@@ -34,8 +34,11 @@ public class Model  extends Observable {
     }
 
     public synchronized void addTurtle(){
-        this.currentTurtle = new Turtle((int)width/2,(int)height/2);
+        this.currentTurtle = new Turtle( width/2,height/2);
         this.currentTurtle.setColor(color);
+        if(mode == 2){
+            new Thread(new randomAgent(this,currentTurtle)).start();
+        }
         this.turtles.add(currentTurtle);
         notifyView(currentTurtle);
     }
@@ -50,7 +53,7 @@ public class Model  extends Observable {
         notifyView();
     }
 
-    public synchronized void gauche(int ang) {
+    public synchronized void left(int ang) {
         this.currentTurtle.left(ang);
         notifyView();
     }
@@ -109,6 +112,14 @@ public class Model  extends Observable {
                 break;
             }
         }
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     public void notifyView(Object arg){

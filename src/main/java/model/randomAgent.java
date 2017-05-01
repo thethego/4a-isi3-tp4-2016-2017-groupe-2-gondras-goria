@@ -11,31 +11,38 @@ import java.util.Random;
  * Created by hagoterio on 01/05/17.
  */
 public class randomAgent implements Runnable{
-     public static List<String> ACTIONLIST = new ArrayList<String>();
-    {
-        ACTIONLIST.add("Avancer");
-        ACTIONLIST.add("Droite");
-        ACTIONLIST.add("Gauche");
-    }
+    private Model model;
 
-    private Controller controller;
+    private Turtle turtle;
 
-    public randomAgent(Controller controller) {
-        this.controller = controller;
+    public randomAgent(Model model, Turtle turtle) {
+        this.model = model;
+        this.turtle = turtle;
     }
 
     public void run() {
-        /*while (true) {
+        while (true) {
             try {
                 Random rand = new Random();
-                int dist = rand.nextInt(100) + 1;
-                int action = rand.nextInt(ACTIONLIST.size());
-                controller.handleAction();
+                int value = rand.nextInt(100) + 1;
+                int action = rand.nextInt(3);
+                switch(action){
+                    case 0:
+                        turtle.forward(value,model.getWidth(),model.getHeight());
+                        break;
+                    case 1:
+                        turtle.right(value);
+                        break;
+                    case 2:
+                        turtle.left(value);
+                        break;
+                }
+                model.notifyView();
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 System.exit(1);
             }
-        }*/
+        }
     }
 }

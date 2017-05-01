@@ -1,6 +1,7 @@
 package controler;
 
 import model.Model;
+import model.Turtle;
 
 /**
  * Created by theo on 12/04/17.
@@ -65,7 +66,7 @@ public class Controller {
     }
 
     public void left(int inputValue){
-        model.gauche(inputValue);
+        model.left(inputValue);
     }
 
     public void pencilUp(){
@@ -102,5 +103,9 @@ public class Controller {
 
     public void changeTurtle (int X, int Y){
         model.setCurrentTurtle(X,Y);
+    }
+
+    public void changeTurtle(Turtle turtle){
+        model.setCurrentTurtle(turtle);
     }
 }
