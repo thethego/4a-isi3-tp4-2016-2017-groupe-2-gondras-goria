@@ -6,6 +6,7 @@ import model.Turtle;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -32,7 +33,8 @@ public class TurtleView{
             return;
 
         // Dessine les segments
-        for(Iterator it = turtle.getSegments().iterator(); it.hasNext();) {
+        ArrayList<Segment> segments = (ArrayList<Segment>) turtle.getSegments().clone();
+        for(Iterator it = segments.iterator(); it.hasNext();) {
             Segment seg = (Segment) it.next();
             drawSegment(graph, seg);
         }
