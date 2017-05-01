@@ -11,12 +11,16 @@ public class Model  extends Observable {
     private Turtle currentTurtle;
     private ArrayList<Turtle> turtles;
     private int height,width;
+    private int color;
 
     public Model(int width, int height) {
         this.turtles = new ArrayList<Turtle>();
+        this.color = 0;
         this.addTurtle();
-        this.height = height;
-        this.width = width;
+    }
+
+    public Model() {
+        this(10,10);
     }
 
     public synchronized void setPosition(double newX, double newY) {
@@ -31,6 +35,7 @@ public class Model  extends Observable {
 
     public synchronized void addTurtle(){
         this.currentTurtle = new Turtle((int)width/2,(int)height/2);
+        this.currentTurtle.setColor(color);
         this.turtles.add(currentTurtle);
         notifyView(currentTurtle);
     }
@@ -75,6 +80,11 @@ public class Model  extends Observable {
         notifyView();
     }
 
+    public void setColor(int color){
+        this.color = color;
+        currentTurtle.setColor(color);
+    }
+
     public synchronized void reset(){
         for (Iterator it = turtles.iterator(); it.hasNext();) {
             Turtle t = (Turtle) it.next();
@@ -86,6 +96,19 @@ public class Model  extends Observable {
 
     public Turtle getCurrentTurtle() {
         return currentTurtle;
+    }
+
+    public void setCurrentTurtle (Turtle turtle){
+        this.currentTurtle=turtle;
+    }
+
+    public void setCurrentTurtle(int X, int Y){
+        for(Turtle turtle : turtles) {
+            if (Math.sqrt(Math.pow(turtle.getX() - X, 2) + Math.pow(turtle.getY() - Y, 2)) < 10) {
+                currentTurtle = turtle;
+                break;
+            }
+        }
     }
 
     public void notifyView(Object arg){

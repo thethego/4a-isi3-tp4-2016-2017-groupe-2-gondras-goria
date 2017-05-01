@@ -95,4 +95,12 @@ public class Controller {
     public void reset(){
         model.reset();
     }
+
+    public void setColor(int color){
+        model.setColor(color);
+    }
+
+    public void changeTurtle (int X, int Y){
+        model.setCurrentTurtle(X,Y);
+    }
 }

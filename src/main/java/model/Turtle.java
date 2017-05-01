@@ -20,6 +20,8 @@ public class Turtle{
     }
 
     public Turtle(int newX, int newY) {
+        System.out.println(newX);
+        System.out.println(newY);
         segments = new ArrayList<Segment>();
         reset();
         x = newX;
