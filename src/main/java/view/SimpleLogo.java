@@ -52,7 +52,8 @@ public class SimpleLogo extends JFrame implements ActionListener {
             Object[] options = {"quitter",
                     "tortues contrôlées",
                     "tortues autonomes",
-                    "tortues en mode flocking"};
+//                    "tortues en mode flocking"
+            };
             mode = JOptionPane.showOptionDialog(this,
                     "Quel mode voulez-vous lancer ?",
                     "choix du mode",
@@ -161,8 +162,6 @@ public class SimpleLogo extends JFrame implements ActionListener {
         this.sheet.setBackground(Color.white);
         this.sheet.setSize(new Dimension(width,height));
         this.sheet.setPreferredSize(new Dimension(width,height));
-        this.sheet.setSize(new Dimension(600,400));
-        this.sheet.setPreferredSize(new Dimension(600,400));
         this.sheet.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 controller.changeTurtle(e.getX(),e.getY());
