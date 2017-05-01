@@ -13,6 +13,8 @@ import java.awt.event.*;
 public class SimpleLogo extends JFrame implements ActionListener {
     public static final Dimension VGAP = new Dimension(1,5);
     public static final Dimension HGAP = new Dimension(5,1);
+    public final int width = 700;
+    public final int height = 400;
 
     private DrawSheet sheet;
     private JTextField inputValue;
@@ -43,6 +45,28 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
     public void logoInit() {
         getContentPane().setLayout(new BorderLayout(10,10));
+
+        int mode = -1;
+        while(mode < 0) {
+            //Custom button text
+            Object[] options = {"quitter",
+                    "tortues contrôlées",
+                    "tortues autonomes",
+                    "tortues en mode flocking"};
+            mode = JOptionPane.showOptionDialog(this,
+                    "Quel mode voulez-vous lancer ?",
+                    "choix du mode",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[2]);
+            System.out.println(mode);
+        }
+
+        if(mode==0){
+            System.exit(0);
+        }
 
         // Boutons
         JToolBar toolBar = new JToolBar();
@@ -124,14 +148,14 @@ public class SimpleLogo extends JFrame implements ActionListener {
         // Création de la feuille de dessin
         this.sheet = new DrawSheet();
         this.sheet.setBackground(Color.white);
-        this.sheet.setSize(new Dimension(600,400));
-        this.sheet.setPreferredSize(new Dimension(600,400));
+        this.sheet.setSize(new Dimension(width,height));
+        this.sheet.setPreferredSize(new Dimension(width,height));
 
         getContentPane().add(this.sheet,"Center");
 
         // Creation du model
         Dimension size = sheet.getSize();
-        Model model = new Model((size.getWidth()+45)/2,size.getHeight()/2);
+        Model model = new Model(width,height);
         model.addObserver(this.sheet);
         this.sheet.update(model,model.getCurrentTurtle());
 
@@ -145,9 +169,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
     /** la gestion des actions des boutons */
     public void actionPerformed(ActionEvent e)
     {
-        Dimension size = sheet.getSize();
-        controller.handleAction(e.getActionCommand(),inputValue.getText(),size.getWidth(),size.getHeight());
-//        this.sheet.repaint();
+        controller.handleAction(e.getActionCommand(),inputValue.getText());
     }
 
 

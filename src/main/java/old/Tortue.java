@@ -88,7 +88,7 @@ public class Tortue
 		Polygon arrow = new Polygon();
 
 		//Calcule des deux bases
-		//Angle de la droite
+		//Angle de la right
 		double theta=ratioDegRad*(-dir);
 		//Demi angle au sommet du triangle
 		double alpha=Math.atan( (float)rb / (float)rp );

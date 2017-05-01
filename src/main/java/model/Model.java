@@ -10,19 +10,13 @@ import java.util.Observable;
 public class Model  extends Observable {
     private Turtle currentTurtle;
     private ArrayList<Turtle> turtles;
+    private int height,width;
 
-    public Model(double x, double y) {
+    public Model(int width, int height) {
         this.turtles = new ArrayList<Turtle>();
-        this.addTurtle(x,y);
-    }
-
-    public Model() {
-        this(10,10);
-    }
-
-    public synchronized void reset() {
-        currentTurtle.reset();
-        notifyView();
+        this.addTurtle();
+        this.height = height;
+        this.width = width;
     }
 
     public synchronized void setPosition(double newX, double newY) {
@@ -35,58 +29,59 @@ public class Model  extends Observable {
         notifyView();
     }
 
-    public synchronized void addTurtle(double newX, double newY){
-        this.currentTurtle = new Turtle((int)newX,(int)newY);
+    public synchronized void addTurtle(){
+        this.currentTurtle = new Turtle((int)width/2,(int)height/2);
         this.turtles.add(currentTurtle);
         notifyView(currentTurtle);
     }
 
-    public synchronized void avancer(int dist) {
-        this.currentTurtle.avancer(dist);
+    public synchronized void forward(int dist) {
+        this.currentTurtle.forward(dist,width,height);
         notifyView();
     }
 
-    public synchronized void droite(int ang) {
-        this.currentTurtle.droite(ang);
+    public synchronized void right(int ang) {
+        this.currentTurtle.right(ang);
         notifyView();
     }
 
     public synchronized void gauche(int ang) {
-        this.currentTurtle.gauche(ang);
+        this.currentTurtle.left(ang);
         notifyView();
     }
 
-    public synchronized void baisserCrayon() {
-        this.currentTurtle.baisserCrayon();
+    public synchronized void pencilDown() {
+        this.currentTurtle.setVisible();
         notifyView();
     }
 
-    public synchronized void leverCrayon() {
-        this.currentTurtle.leverCrayon();
+    public synchronized void pencilUp() {
+        this.currentTurtle.setInvisible();
         notifyView();
     }
 
-    public synchronized void carre() {
-        this.currentTurtle.carre();
+    public synchronized void square() {
+        this.currentTurtle.square(width,height);
         notifyView();
     }
 
-    public void poly(int n, int a) {
-        this.currentTurtle.poly(n,a);
+    public synchronized void poly(int n, int a) {
+        this.currentTurtle.poly(n,a,width,height);
         notifyView();
     }
 
-    public void spiral(int n, int k, int a) {
-        this.currentTurtle.spiral(n,k,a);
+    public synchronized void spiral(int n, int k, int a) {
+        this.currentTurtle.spiral(n,k,a,width,height);
         notifyView();
     }
 
-    public void reset(double newX, double newY){
+    public synchronized void reset(){
         for (Iterator it = turtles.iterator(); it.hasNext();) {
             Turtle t = (Turtle) it.next();
             t.reset();
         }
-        this.setPosition((int)newX,(int)newY);
+        this.setPosition((int)width/2,(int)height/2);
+        notifyView();
     }
 
     public Turtle getCurrentTurtle() {

@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 /**
  * Created by theo on 12/04/17.
@@ -11,10 +10,10 @@ public class Turtle{
     protected static final double ratioDegRad = 0.0174533; // Rapport radians/degres (pour la conversion)
 
     private ArrayList<Segment> segments;
-    protected int x, y;
-    protected int dir;
-    protected boolean crayon;
-    protected int color;
+    private int x, y;
+    private int dir;
+    private boolean visible;
+    private int color;
 
     public Turtle() {
         this(0,0);
@@ -41,7 +40,7 @@ public class Turtle{
         y = 0;
         dir = -90;
         color = 0;
-        crayon = true;
+        visible = true;
         segments.clear();
     }
 
@@ -54,70 +53,101 @@ public class Turtle{
         dir = newDir;
     }
 
-    public void avancer(int dist) {
-        int newX = (int) Math.round(x+dist*Math.cos(ratioDegRad*dir));
-        int newY = (int) Math.round(y+dist*Math.sin(ratioDegRad*dir));
+    public void forward(int dist, int width, int height) {
+        System.out.println(dir);
+        int realX = (int) Math.round(x+dist*Math.cos(ratioDegRad*dir));
+        int realY = (int) Math.round(y+dist*Math.sin(ratioDegRad*dir));
+        int endX = realX;
+        int endY = realY;
+        int newX = realX;
+        int newY = realY;
+        if(realX<0){
+            endX = 0;
+            newX = width;
+            endY = (int) Math.round(y+((endX-x)/Math.cos(ratioDegRad*dir))*Math.sin(ratioDegRad*dir));
+            newY = endY;
+        } else if (realX > width) {
+            endX = width;
+            newX = 0;
+            endY = (int) Math.round(y+((endX-x)/Math.cos(ratioDegRad*dir))*Math.sin(ratioDegRad*dir));
+            newY = endY;
+        }
+        if(realY<0){
+            endY = 0;
+            newY = height;
+            endX = (int) Math.round(x+((endY-y)/Math.sin(ratioDegRad*dir))*Math.cos(ratioDegRad*dir));
+            newX = endX;
+        } else if (realY > height) {
+            endY = height;
+            newY = 0;
+            endX = (int) Math.round(x+((endY-y)/Math.sin(ratioDegRad*dir))*Math.cos(ratioDegRad*dir));
+            newX = endX;
+        }
 
-        if (crayon==true) {
+        if (visible ==true) {
             Segment seg = new Segment();
 
             seg.getPtStart().setX(x);
             seg.getPtStart().setY(y);
-            seg.getPtEnd().setX(newX);
-            seg.getPtEnd().setY(newY);
+            seg.getPtEnd().setX(endX);
+            seg.getPtEnd().setY(endY);
             seg.setColor(color);
 
             segments.add(seg);
         }
-
         setPosition(newX,newY);
+        if(endX != realX || endY != realY){
+            dist = (int) Math.round(Math.sqrt(Math.pow(realX - endX,2)+Math.pow(realY - endY,2)));
+            forward(dist,width,height);
+        }
+
     }
 
-    public void droite(int ang) {
+    public void right(int ang) {
         setDir((dir + ang) % 360);
     }
 
-    public void gauche(int ang) {
+    public void left(int ang) {
         setDir((dir - ang) % 360);
     }
 
-    public void baisserCrayon() {
-        crayon = true;
+    public void setVisible() {
+        visible = true;
     }
 
-    public void leverCrayon() {
-        crayon = false;
+    public void setInvisible() {
+        visible = false;
     }
 
-    public void couleur(int n) {
+    public void color(int n) {
         color = n % 12;
     }
 
     public void couleurSuivante() {
-        couleur(color +1);
+        color(color +1);
     }
 
     /** quelques classiques */
 
-    public void carre() {
+    public void square(int width, int height) {
         for (int i=0;i<4;i++) {
-            avancer(100);
-            droite(90);
+            forward(100,width,height);
+            right(90);
         }
     }
 
-    public void poly(int n, int a) {
+    public void poly(int n, int a, int width, int height) {
         for (int j=0;j<a;j++) {
-            avancer(n);
-            droite(360/a);
+            forward(n,width,height);
+            right(360/a);
         }
     }
 
-    public void spiral(int n, int k, int a) {
+    public void spiral(int n, int k, int a,int width, int height) {
         for (int i = 0; i < k; i++) {
-            couleur(color +1);
-            avancer(n);
-            droite(360/a);
+            color(color +1);
+            forward(n,width, height);
+            right(360/a);
             n = n+1;
         }
     }
@@ -138,8 +168,8 @@ public class Turtle{
         return dir;
     }
 
-    public boolean isCrayon() {
-        return crayon;
+    public boolean isVisible() {
+        return visible;
     }
 
     public static double getRatioDegRad() {

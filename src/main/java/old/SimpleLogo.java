@@ -175,7 +175,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
 		// actions des boutons du haut
 		if (c.equals("Avancer")) {
-			System.out.println("command avancer");
+			System.out.println("command forward");
 			try {
 				int v = Integer.parseInt(inputValue.getText());
 				courante.avancer(v);

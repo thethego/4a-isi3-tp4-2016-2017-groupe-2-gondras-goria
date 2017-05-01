@@ -1,10 +1,6 @@
 package controler;
 
 import model.Model;
-import model.Turtle;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by theo on 12/04/17.
@@ -16,14 +12,10 @@ public class Controller {
         this.model = model;
     }
 
-    public Controller() {
-        this(new Model());
-    }
 
-
-    public void handleAction(String c,String inputValue,double width,double height){
+    public void handleAction(String c,String inputValue){
         if (c.equals("Avancer")) {
-            System.out.println("command avancer");
+            System.out.println("command forward");
             try {
                 this.moveForward(Integer.parseInt(inputValue));
             } catch (NumberFormatException ex){
@@ -50,7 +42,7 @@ public class Controller {
         else if (c.equals("Baisser"))
             this.pencilDown();
         else if (c.equals("Ajouter"))
-            this.addTurtle(width/2, height/2);
+            this.addTurtle();
             // actions des boutons du bas
         else if (c.equals("Proc1"))
             this.square();
@@ -59,17 +51,17 @@ public class Controller {
         else if (c.equals("Proc3"))
             this.spiral();
         else if (c.equals("Effacer"))
-            this.reset(width/2, height/2);
+            this.reset();
         else if (c.equals("Quitter"))
             System.exit(0);
     }
 
     public void moveForward(int inputValue){
-        model.avancer(inputValue);
+        model.forward(inputValue);
     }
 
     public void right(int inputValue){
-        model.droite(inputValue);
+        model.right(inputValue);
     }
 
     public void left(int inputValue){
@@ -77,19 +69,19 @@ public class Controller {
     }
 
     public void pencilUp(){
-        model.leverCrayon();
+        model.pencilUp();
     }
 
     public void pencilDown(){
-        model.baisserCrayon();
+        model.pencilDown();
     }
 
-    public void addTurtle(double newX, double newY){
-        model.addTurtle(newX,newY);
+    public void addTurtle(){
+        model.addTurtle();
     }
 
     public void square(){
-        model.carre();
+        model.square();
     }
 
     public void poly(){
@@ -100,7 +92,7 @@ public class Controller {
         model.spiral(50,40,6);
     }
 
-    public void reset(double newX, double newY){
-        model.reset(newX, newY);
+    public void reset(){
+        model.reset();
     }
 }
