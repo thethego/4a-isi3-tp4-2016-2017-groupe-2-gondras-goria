@@ -9,7 +9,7 @@ import java.util.Random;
 public class flockingAgent implements Runnable {
 
     private final static int INITIAL_DIST_NEIGHBORHOOD = 100;
-    private final static int INITIAL_MINIMAL_DIST = 30;
+    private final static int INITIAL_MINIMAL_DIST = 50;
 
     private Model model;
     private Turtle turtle;
