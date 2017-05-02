@@ -110,15 +110,13 @@ public class flockingAgent implements Runnable {
         Vector alignment = getAlignment(neighbors);
         Vector cohesion = getCohesion(neighbors);
         if(separation.getDist()>0){
-            System.out.println("esquive");
-            System.out.println(separation.getAngle());
             coefs.add(0.5);
             coefs.add(0.3);
             coefs.add(0.2);
         } else {
             coefs.add(0.0);
-            coefs.add(0.6);
-            coefs.add(0.4);
+            coefs.add(0.7);
+            coefs.add(0.3);
         }
         int newX = (int) (separation.getX(turtle.getX())*coefs.get(0)
                 + alignment.getX(turtle.getX())*coefs.get(1)
