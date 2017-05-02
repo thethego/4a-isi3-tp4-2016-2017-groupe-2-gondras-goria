@@ -34,9 +34,9 @@ Par conséquent certaines classes (flockingAgent et randomAgent) ont été ajout
 *Rien à rédiger*
 
 ## Question 4
-Nous vons simplement ajouté un mouseListener à la feuille de dessin. De cette les cliques
-souris sont intercepté par la vue puis passer au controller qui en informe le model.
-Ce dernier peut alors regarder si ce clique correspond à une tortue et modifier sa tortue courante,
+Nous vons simplement ajouté un mouseListener à la feuille de dessin. De cette façon les cliques
+souris sont intercepté par la vue puis passés au controller qui en informe le model.
+Ce dernier peut alors regarder si ce clique correspond à une tortue et modifier sa tortue courante si c'est le cas,
 puis informer la vue de ce changement.
 
 Ajout du mouseListener :
