@@ -115,8 +115,8 @@ public class flockingAgent implements Runnable {
             coefs.add(0.2);
         } else {
             coefs.add(0.0);
-            coefs.add(0.7);
-            coefs.add(0.3);
+            coefs.add(0.9);
+            coefs.add(0.1);
         }
         int newX = (int) (separation.getX(turtle.getX())*coefs.get(0)
                 + alignment.getX(turtle.getX())*coefs.get(1)
