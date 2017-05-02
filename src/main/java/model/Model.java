@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -38,6 +39,8 @@ public class Model  extends Observable {
         this.currentTurtle.setColor(color);
         if(mode == 2){
             new Thread(new randomAgent(this,currentTurtle)).start();
+        } else if(mode == 3) {
+            new Thread(new flockingAgent(this,currentTurtle)).start();
         }
         this.turtles.add(currentTurtle);
         notifyView(currentTurtle);
@@ -120,6 +123,17 @@ public class Model  extends Observable {
 
     public int getWidth() {
         return width;
+    }
+
+    public List<Turtle> getNeighbors(Turtle turtle, int dist){
+        ArrayList<Turtle> neighbors = new ArrayList<Turtle>();
+        for(Turtle t : turtles){
+            if (t != turtle
+                    && Math.sqrt(Math.pow(turtle.getX() - t.getX(), 2) + Math.pow(turtle.getY() - t.getY(), 2)) < dist){
+                neighbors.add(t);
+            }
+        }
+        return neighbors;
     }
 
     public void notifyView(Object arg){

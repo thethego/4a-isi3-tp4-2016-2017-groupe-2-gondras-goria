@@ -14,6 +14,7 @@ public class Turtle{
     private int dir;
     private boolean visible;
     private int color;
+    private int speed;
 
     public Turtle() {
         this(0,0);
@@ -24,7 +25,6 @@ public class Turtle{
         reset();
         x = newX;
         y = newY;
-
     }
 
     public void setColor(int n) {
@@ -39,6 +39,7 @@ public class Turtle{
         x = 0;
         y = 0;
         dir = -90;
+        speed = 0;
         color = 0;
         visible = true;
         segments.clear();
@@ -53,7 +54,7 @@ public class Turtle{
         dir = newDir;
     }
 
-    public void forward(int dist, int width, int height) {
+    public void forwardRec(int dist, int width, int height){
         int realX = (int) Math.round(x+dist*Math.cos(ratioDegRad*dir));
         int realY = (int) Math.round(y+dist*Math.sin(ratioDegRad*dir));
         int endX = realX;
@@ -99,6 +100,11 @@ public class Turtle{
             dist = (int) Math.round(Math.sqrt(Math.pow(realX - endX,2)+Math.pow(realY - endY,2)));
             forward(dist,width,height);
         }
+    }
+
+    public void forward(int dist, int width, int height) {
+        this.speed = dist;
+        forwardRec(dist,width,height);
 
     }
 
@@ -165,6 +171,10 @@ public class Turtle{
 
     public int getDir() {
         return dir;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 
     public boolean isVisible() {
