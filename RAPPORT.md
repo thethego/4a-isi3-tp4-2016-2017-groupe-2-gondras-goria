@@ -35,7 +35,7 @@ Par conséquent certaines classes (flockingAgent et randomAgent) ont été ajout
 
 ## Question 4
 Nous vons simplement ajouté un mouseListener à la feuille de dessin. De cette façon les cliques
-souris sont intercepté par la vue puis passés au controller qui en informe le model.
+souris sont interceptés par la vue puis passés au controller qui en informe le model.
 Ce dernier peut alors regarder si ce clique correspond à une tortue et modifier sa tortue courante si c'est le cas,
 puis informer la vue de ce changement.
 
@@ -66,7 +66,7 @@ Pour implémenter cette fonctionnalité nous avons créé une classe randomAgent
 Cette classe possède une tortue et génère, à interval de temps régulier, un mouvement
 aléatoire pour cette dernière.
 Elle implémente l'interface Runnable de façon à pouvoir être lancé dans un thread indépendant.
-Il suffit alors d'assigner un randomAgent à chaque tortue que l'ont créé et de le lancer dans
+Il suffit alors d'assigner un randomAgent à chaque tortue que l'ont créée et de le lancer dans
 un thread, quand l'application est lancé dans le bon mode, pour que les tortues bougent aléatoirement.
 
 ## Question 6
