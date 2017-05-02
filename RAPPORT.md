@@ -67,7 +67,7 @@ Cette classe possède une tortue et génère, à interval de temps régulier, un
 aléatoire pour cette dernière.
 Elle implémente l'interface Runnable de façon à pouvoir être lancé dans un thread indépendant.
 Il suffit alors d'assigner un randomAgent à chaque tortue que l'ont créé et de le lancer dans
-un thread, quand l'application est lancé dans le bon mode pour que les tortues bougent aléatoirement.
+un thread, quand l'application est lancé dans le bon mode, pour que les tortues bougent aléatoirement.
 
 ## Question 6
 De la même façon que la question précédente nous avons créé un flockingAgent qui simule
