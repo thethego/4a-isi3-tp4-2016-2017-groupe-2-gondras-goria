@@ -7,8 +7,6 @@ import java.util.ArrayList;
  */
 public class Turtle{
 
-    protected static final double ratioDegRad = 0.0174533; // Rapport radians/degres (pour la conversion)
-
     private ArrayList<Segment> segments;
     private int x, y;
     private int dir;
@@ -55,8 +53,12 @@ public class Turtle{
     }
 
     public void forwardRec(int dist, int width, int height){
-        int realX = (int) Math.round(x+dist*Math.cos(ratioDegRad*dir));
-        int realY = (int) Math.round(y+dist*Math.sin(ratioDegRad*dir));
+
+        Vector v = new Vector(dist,dir);
+        int realX = v.getX(x);
+        int realY = v.getY(y);
+
+        //Toroidal environment, when we arrive on a side, we go on the other side
         int endX = realX;
         int endY = realY;
         int newX = realX;
@@ -64,27 +66,27 @@ public class Turtle{
         if(realX<0){
             endX = 0;
             newX = width;
-            endY = (int) Math.round(y+((endX-x)/Math.cos(ratioDegRad*dir))*Math.sin(ratioDegRad*dir));
+            endY = (int) Math.round(y+((endX-x)/Math.cos(Vector.ratioDegRad*dir))*Math.sin(Vector.ratioDegRad*dir));
             newY = endY;
         } else if (realX > width) {
             endX = width;
             newX = 0;
-            endY = (int) Math.round(y+((endX-x)/Math.cos(ratioDegRad*dir))*Math.sin(ratioDegRad*dir));
+            endY = (int) Math.round(y+((endX-x)/Math.cos(Vector.ratioDegRad*dir))*Math.sin(Vector.ratioDegRad*dir));
             newY = endY;
         }
         if(realY<0){
             endY = 0;
             newY = height;
-            endX = (int) Math.round(x+((endY-y)/Math.sin(ratioDegRad*dir))*Math.cos(ratioDegRad*dir));
+            endX = (int) Math.round(x+((endY-y)/Math.sin(Vector.ratioDegRad*dir))*Math.cos(Vector.ratioDegRad*dir));
             newX = endX;
         } else if (realY > height) {
             endY = height;
             newY = 0;
-            endX = (int) Math.round(x+((endY-y)/Math.sin(ratioDegRad*dir))*Math.cos(ratioDegRad*dir));
+            endX = (int) Math.round(x+((endY-y)/Math.sin(Vector.ratioDegRad*dir))*Math.cos(Vector.ratioDegRad*dir));
             newX = endX;
         }
 
-        if (visible ==true) {
+        if (visible) {
             Segment seg = new Segment();
 
             seg.getPtStart().setX(x);
@@ -132,7 +134,7 @@ public class Turtle{
         color(color +1);
     }
 
-    /** quelques classiques */
+    /** some classical */
 
     public void square(int width, int height) {
         for (int i=0;i<4;i++) {
@@ -179,9 +181,5 @@ public class Turtle{
 
     public boolean isVisible() {
         return visible;
-    }
-
-    public static double getRatioDegRad() {
-        return ratioDegRad;
     }
 }

@@ -2,6 +2,7 @@ package view;
 
 import model.Segment;
 import model.Turtle;
+import model.Vector;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -46,7 +47,7 @@ public class TurtleView{
 
         //Calcule des deux bases
         //Angle de la right
-        double theta=Turtle.getRatioDegRad()*(-turtle.getDir());
+        double theta= Vector.ratioDegRad*(-turtle.getDir());
         //Demi angle au sommet du triangle
         double alpha=Math.atan( (float)rb / (float)rp );
         //Rayon de la fleche
