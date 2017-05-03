@@ -95,8 +95,8 @@ public class Model  extends Observable {
         for (Iterator it = turtles.iterator(); it.hasNext();) {
             Turtle t = (Turtle) it.next();
             t.reset();
+            t.setPosition((int)width/2,(int)height/2);
         }
-        this.setPosition((int)width/2,(int)height/2);
         notifyView();
     }
 
