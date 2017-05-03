@@ -54,7 +54,8 @@ public class Turtle{
 
     public void forwardRec(int dist, int width, int height){
 
-        Vector v = new Vector(dist,dir);
+        int[] dimension = {width,height};
+        Vector v = new Vector(dist,dir,dimension);
         int realX = v.getX(x);
         int realY = v.getY(y);
 

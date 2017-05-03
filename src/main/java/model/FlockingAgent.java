@@ -6,17 +6,20 @@ import java.util.Random;
 /**
  * Created by hagoterio on 02/05/17.
  */
-public class flockingAgent implements Runnable {
+public class FlockingAgent implements Runnable {
 
     private final static int INITIAL_DIST_NEIGHBORHOOD = 100;
     private final static int INITIAL_MINIMAL_DIST = 50;
+    private final static int INITIAL_TIME_SLEEP = 100;
 
     private Model model;
     private Turtle turtle;
+    private int[] dimension;
 
-    public flockingAgent(Model model, Turtle turtle) {
+    public FlockingAgent(Model model, Turtle turtle) {
         this.model = model;
         this.turtle = turtle;
+        this.dimension = new int[]{model.getWidth(), model.getHeight()};
     }
 
     public void run() {
@@ -29,7 +32,7 @@ public class flockingAgent implements Runnable {
                     doRandomAction();
                 }
                 model.notifyView();
-                Thread.sleep(500);
+                Thread.sleep(INITIAL_TIME_SLEEP);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 System.exit(1);
@@ -40,13 +43,14 @@ public class flockingAgent implements Runnable {
     private void doRandomAction(){
         Random rand = new Random();
         int speed = rand.nextInt(100) + 1;
-        int dir = rand.nextInt(361);
+        int dir = rand.nextInt(360);
         turtle.setDir(dir);
         turtle.forward(speed,model.getWidth(),model.getHeight());
     }
 
     private void doFlockingAction(ArrayList<Turtle> neighbors){
         Vector action = getFlockingVector(neighbors);
+        System.out.println("action : "+action.getDist());
         turtle.setDir(action.getAngle());
         turtle.forward(action.getDist(),model.getWidth(),model.getHeight());
     }
@@ -61,9 +65,12 @@ public class flockingAgent implements Runnable {
             }
             meanSpeed /= neighbors.size();
             meanDir /= neighbors.size();
-             return new Vector(meanSpeed,meanDir);
+             return new Vector(meanSpeed,meanDir,dimension);
         } else {
-            return new Vector(0,0);
+            Random rand = new Random();
+            int speed = rand.nextInt(100) + 1;
+            int dir = rand.nextInt(360);
+            return new Vector(speed,dir,dimension);
         }
     }
 
@@ -77,30 +84,36 @@ public class flockingAgent implements Runnable {
             }
             MeanX /= neighbors.size();
             MeanY /= neighbors.size();
-            return new Vector(turtle.getX(),turtle.getY(),MeanX,MeanY);
+            return new Vector(turtle.getX(),turtle.getY(),MeanX,MeanY,dimension);
         } else {
-            return new Vector(0,0);
+            Random rand = new Random();
+            int speed = rand.nextInt(100) + 1;
+            int dir = rand.nextInt(360);
+            return new Vector(speed,dir,dimension);
         }
     }
 
     private Vector getSeparation(){
         ArrayList<Turtle> toCloseNeighbors = (ArrayList<Turtle>) model.getNeighbors(turtle,INITIAL_MINIMAL_DIST);
+        Random rand = new Random();
         if(toCloseNeighbors.size() > 0){
             Vector v;
             int MeanX = 0;
             int MeanY = 0;
             for(Turtle t : toCloseNeighbors){
-                v = new Vector(turtle.getX(),turtle.getY(),t.getX(),t.getY());
-                v.inverseAngle();
+                v = new Vector(turtle.getX(),turtle.getY(),t.getX(),t.getY(),dimension);
+//                v.addAngle(180);
                 v.setDist(INITIAL_MINIMAL_DIST - v.getDist());
                 MeanX += v.getX(turtle.getX());
                 MeanY += v.getX(turtle.getY());
             }
             MeanX /= toCloseNeighbors.size();
             MeanY /= toCloseNeighbors.size();
-            return new Vector(turtle.getX(),turtle.getY(),MeanX,MeanY);
+            return new Vector(turtle.getX(),turtle.getY(),MeanX,MeanY,dimension);
         } else {
-            return new Vector(0,0);
+            int speed = rand.nextInt(100) + 1;
+            int dir = rand.nextInt(360);
+            return new Vector(speed,dir,dimension);
         }
     }
 
@@ -118,12 +131,19 @@ public class flockingAgent implements Runnable {
             coefs.add(0.9);
             coefs.add(0.1);
         }
-        int newX = (int) (separation.getX(turtle.getX())*coefs.get(0)
-                + alignment.getX(turtle.getX())*coefs.get(1)
-                + cohesion.getX(turtle.getX())*coefs.get(2));
-        int newY = (int) (separation.getY(turtle.getY())*coefs.get(0)
-                + alignment.getY(turtle.getY())*coefs.get(1)
-                + cohesion.getY(turtle.getY())*coefs.get(2));
-        return new Vector(turtle.getX(),turtle.getY(),newX,newY);
+        System.out.println(separation.getDist());
+        System.out.println(alignment.getDist());
+        System.out.println(cohesion.getDist());
+        int newX = (int) ((float) separation.getX(turtle.getX())*coefs.get(0)
+                + (float) alignment.getX(turtle.getX())*coefs.get(1)
+                + (float) cohesion.getX(turtle.getX())*coefs.get(2));
+        int newY = (int) ((float) separation.getY(turtle.getY())*coefs.get(0)
+                + (float) alignment.getY(turtle.getY())*coefs.get(1)
+                + (float) cohesion.getY(turtle.getY())*coefs.get(2));
+        System.out.println("newX : "+newX);
+        System.out.println("newY : "+newY);
+        System.out.println("oldX : "+turtle.getX());
+        System.out.println("oldY : "+turtle.getY());
+        return new Vector(turtle.getX(),turtle.getY(),newX,newY,dimension);
     }
 }
