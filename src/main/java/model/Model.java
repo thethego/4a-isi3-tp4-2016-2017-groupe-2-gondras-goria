@@ -38,9 +38,9 @@ public class Model  extends Observable {
         this.currentTurtle = new Turtle( width/2,height/2);
         this.currentTurtle.setColor(color);
         if(mode == 2){
-            new Thread(new randomAgent(this,currentTurtle)).start();
+            new Thread(new RandomAgent(this,currentTurtle)).start();
         } else if(mode == 3) {
-            new Thread(new flockingAgent(this,currentTurtle)).start();
+            new Thread(new FlockingAgent(this,currentTurtle)).start();
         }
         this.turtles.add(currentTurtle);
         notifyView(currentTurtle);
@@ -126,11 +126,19 @@ public class Model  extends Observable {
     }
 
     public List<Turtle> getNeighbors(Turtle turtle, int dist){
-        ArrayList<Turtle> neighbors = new ArrayList<Turtle>();
+        int[] dimension = {this.getWidth(), this.getHeight()};
+        ArrayList<Turtle> neighbors = new ArrayList<>();
+        Vector vector;
         for(Turtle t : turtles){
-            if (t != turtle
-                    && Math.sqrt(Math.pow(turtle.getX() - t.getX(), 2) + Math.pow(turtle.getY() - t.getY(), 2)) < dist){
-                neighbors.add(t);
+            if(t != turtle){
+                vector = new Vector((turtle.getX()),
+                        turtle.getY(),
+                        t.getX(),
+                        t.getY(),
+                        dimension);
+                if(vector.getDist()<dist){
+                    neighbors.add(t);
+                }
             }
         }
         return neighbors;

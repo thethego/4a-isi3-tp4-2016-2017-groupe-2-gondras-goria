@@ -10,12 +10,13 @@ import java.util.Random;
 /**
  * Created by hagoterio on 01/05/17.
  */
-public class randomAgent implements Runnable {
+public class RandomAgent implements Runnable {
+    private final static int INITIAL_TIME_SLEEP = 100;
 
     private Model model;
     private Turtle turtle;
 
-    public randomAgent(Model model, Turtle turtle) {
+    public RandomAgent(Model model, Turtle turtle) {
         this.model = model;
         this.turtle = turtle;
     }
@@ -29,7 +30,7 @@ public class randomAgent implements Runnable {
                 turtle.setDir(dir);
                 turtle.forward(speed,model.getWidth(),model.getHeight());
                 model.notifyView();
-                Thread.sleep(500);
+                Thread.sleep(INITIAL_TIME_SLEEP);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 System.exit(1);

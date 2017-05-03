@@ -47,25 +47,22 @@ public class SimpleLogo extends JFrame implements ActionListener {
         getContentPane().setLayout(new BorderLayout(10,10));
 
         int mode = -1;
-        while(mode < 0) {
-            //Custom button text
-            Object[] options = {"quitter",
-                    "tortues contrôlées",
-                    "tortues autonomes",
-                    "tortues en mode flocking"
-            };
-            mode = JOptionPane.showOptionDialog(this,
-                    "Quel mode voulez-vous lancer ?",
-                    "choix du mode",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[2]);
-            System.out.println(mode);
-        }
+        //Custom button text
+        Object[] options = {"quitter",
+                "tortues contrôlées",
+                "tortues autonomes",
+                "tortues en mode flocking"
+        };
+        mode = JOptionPane.showOptionDialog(this,
+                "Quel mode voulez-vous lancer ?",
+                "choix du mode",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[2]);
 
-        if(mode==0){
+        if(mode<1){
             System.exit(0);
         }
 
