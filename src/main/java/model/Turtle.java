@@ -42,7 +42,7 @@ public class Turtle{
         dir = 270;
         speed = 0;
         color = 0;
-        visible = false;
+        visible = true;
         segments.clear();
     }
 
@@ -99,6 +99,9 @@ public class Turtle{
             seg.setColor(color);
 
             segments.add(seg);
+            if(segments.size() > 15){
+                segments.remove(0);
+            }
             setPosition(newX, newY);
             if (endX != realX || endY != realY) {
                 dist = (int) Math.round(Math.sqrt(Math.pow(realX - endX, 2) + Math.pow(realY - endY, 2)));
