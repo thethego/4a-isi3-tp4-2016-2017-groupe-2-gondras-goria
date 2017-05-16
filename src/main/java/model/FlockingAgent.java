@@ -88,7 +88,7 @@ public class FlockingAgent implements Runnable {
 
     private Vector getSeparation(){
         ArrayList<Turtle> toCloseNeighbors = (ArrayList<Turtle>) model.getNeighbors(turtle,INITIAL_MINIMAL_DIST);
-        Random rand = new Random();
+
         if(toCloseNeighbors.size() > 0){
             Vector v;
             int meanSpeed = 0;

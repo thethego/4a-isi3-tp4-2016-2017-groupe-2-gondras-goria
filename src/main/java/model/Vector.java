@@ -79,6 +79,14 @@ public class Vector {
         return (int) (Math.round(y+dist*Math.sin(ratioDegRad*angle)))%height;
     }
 
+    public int getXWithoutDimension(int x){
+        return (int) (Math.round(x+dist*Math.cos(ratioDegRad*angle)));
+    }
+
+    public int getYWithoutDimension(int y){
+        return (int) (Math.round(y+dist*Math.sin(ratioDegRad*angle)));
+    }
+
     public void setDist(int dist) {
         this.dist = dist;
     }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by theo on 12/04/17.
@@ -83,6 +84,14 @@ public class DrawSheet extends JPanel implements Observer {
                 Object next = it.next();
                 if(next instanceof Obstacle){
                     this.addObstacle((Obstacle)next);
+                }
+            }
+        }
+        if(arg instanceof CopyOnWriteArrayList){
+            for(Iterator it = ((CopyOnWriteArrayList)arg).iterator();it.hasNext();) {
+                Object next = it.next();
+                if(next instanceof Turtle){
+                    this.addTurtle((Turtle)next);
                 }
             }
         }

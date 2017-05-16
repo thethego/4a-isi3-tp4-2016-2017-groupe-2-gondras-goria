@@ -1,23 +1,21 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by hagoterio on 26/04/17.
  */
 public class Model  extends Observable {
     private Turtle currentTurtle;
-    private ArrayList<Turtle> turtles;
+    private CopyOnWriteArrayList<Turtle> turtles;
     private int height,width;
     private int color;
     private int mode;
     private ArrayList<Obstacle> obstacles;
 
     public Model(int width, int height, int mode) {
-        this.turtles = new ArrayList<Turtle>();
+        this.turtles = new CopyOnWriteArrayList<>();
         this.color = 0;
         this.width = width;
         this.height = height;
@@ -140,6 +138,10 @@ public class Model  extends Observable {
 
     public int getWidth() {
         return width;
+    }
+
+    public CopyOnWriteArrayList<Turtle> getTurtles() {
+        return turtles;
     }
 
     public List<Turtle> getNeighbors(Turtle turtle, int dist){

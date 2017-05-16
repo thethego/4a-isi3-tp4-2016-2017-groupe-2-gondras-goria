@@ -56,8 +56,8 @@ public class Turtle{
 
         int[] dimension = {width,height};
         Vector v = new Vector(dist,dir,dimension);
-        int realX = v.getX(x);
-        int realY = v.getY(y);
+        int realX = v.getXWithoutDimension(x);
+        int realY = v.getYWithoutDimension(y);
 
         //Toroidal environment, when we arrive on a side, we go on the other side
         int endX = realX;
