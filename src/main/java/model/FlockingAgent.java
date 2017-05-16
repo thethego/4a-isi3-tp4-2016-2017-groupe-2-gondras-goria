@@ -98,7 +98,11 @@ public class FlockingAgent implements Runnable {
             int meanDir = 0;
             for(Turtle t : toCloseNeighbors){
                 v = new Vector(turtle.getX(),turtle.getY(),t.getX(),t.getY(),dimension);
-                v.inverseAngle();
+                if(v.getDist() == 0){
+                    v.setAngle(turtle.getRandomDir());
+                } else {
+                    v.inverseAngle();
+                }
                 v.setDist((int) (INITIAL_MINIMAL_DIST - v.getDist()));
                 meanDir += v.getAngle();
             }

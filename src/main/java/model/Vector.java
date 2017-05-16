@@ -100,6 +100,10 @@ public class Vector {
         this.dist = dist;
     }
 
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
     public void addAngle(int newAngle){
         angle = (angle + newAngle) % 360;
     }
