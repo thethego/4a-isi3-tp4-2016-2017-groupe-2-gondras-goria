@@ -16,7 +16,6 @@ public class Controller {
 
     public void handleAction(String c,String inputValue){
         if (c.equals("Avancer")) {
-            System.out.println("command forward");
             try {
                 this.moveForward(Integer.parseInt(inputValue));
             } catch (NumberFormatException ex){
