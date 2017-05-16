@@ -1,11 +1,14 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by theo on 12/04/17.
  */
 public class Turtle{
+
+    private final static int DIR_VARIATION = 40;
 
     private ArrayList<Segment> segments;
     private int x, y;
@@ -182,5 +185,16 @@ public class Turtle{
 
     public boolean isVisible() {
         return visible;
+    }
+
+    public int getRandomDir(){
+        Random rand = new Random();
+        int newDir = getDir() + rand.nextInt(2*DIR_VARIATION) - DIR_VARIATION;
+        if(newDir < 0) newDir += 360;
+        return newDir;
+    }
+
+    public void setRandomDir(){
+        setDir(getRandomDir());
     }
 }

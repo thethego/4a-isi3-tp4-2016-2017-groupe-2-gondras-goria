@@ -9,8 +9,8 @@ import java.util.Random;
 public class FlockingAgent implements Runnable {
 
     private final static int INITIAL_DIST_NEIGHBORHOOD = 100;
-    private final static int INITIAL_MINIMAL_DIST = 50;
-    private final static int INITIAL_TIME_SLEEP = 100;
+    private final static int INITIAL_MINIMAL_DIST = 40;
+    private final static int INITIAL_TIME_SLEEP = 200;
 
     private Model model;
     private Turtle turtle;
@@ -104,7 +104,7 @@ public class FlockingAgent implements Runnable {
             meanSpeed /= toCloseNeighbors.size();
             return new Vector(meanSpeed,meanDir,dimension);
         } else {
-            return Vector.getRandomVector(dimension);
+            return new Vector(0,0,dimension);
         }
     }
 
@@ -114,13 +114,13 @@ public class FlockingAgent implements Runnable {
         Vector alignment = getAlignment(neighbors);
         Vector cohesion = getCohesion(neighbors);
         if(separation.getDist()>0){
-            coefs.add(0.5);
+            coefs.add(0.6);
             coefs.add(0.3);
-            coefs.add(0.2);
+            coefs.add(0.1);
         } else {
             coefs.add(0.0);
-            coefs.add(0.9);
-            coefs.add(0.1);
+            coefs.add(0.8);
+            coefs.add(0.2);
         }
         int newX = (int) ((float) separation.getX(turtle.getX())*coefs.get(0)
                 + (float) alignment.getX(turtle.getX())*coefs.get(1)
