@@ -43,13 +43,13 @@ public class FlockingAgent implements Runnable {
     private void doRandomAction(){
         Vector v = Vector.getRandomVector(dimension);
         turtle.setDir(v.getAngle());
-        turtle.forward(v.getDist(),model.getWidth(),model.getHeight());
+        model.forward(v.getDist(), this.turtle);
     }
 
     private void doFlockingAction(ArrayList<Turtle> neighbors){
         Vector action = getFlockingVector(neighbors);
         turtle.setDir(action.getAngle());
-        turtle.forward(action.getDist(),model.getWidth(),model.getHeight());
+        model.forward(action.getDist(), this.turtle);
     }
 
     private Vector getCohesion(ArrayList<Turtle> neighbors){

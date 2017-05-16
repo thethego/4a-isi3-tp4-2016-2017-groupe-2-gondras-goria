@@ -11,7 +11,7 @@ import java.util.Random;
  * Created by hagoterio on 01/05/17.
  */
 public class RandomAgent implements Runnable {
-    private final static int INITIAL_TIME_SLEEP = 40;
+    private final static int INITIAL_TIME_SLEEP = 16;
 
     private Model model;
     private Turtle turtle;

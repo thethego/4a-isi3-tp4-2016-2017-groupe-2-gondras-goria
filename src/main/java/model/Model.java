@@ -26,7 +26,7 @@ public class Model  extends Observable {
         this.addObstacle(new Point(500, 10), 80, 70, 6);
         this.addObstacle(new Point(200, 300), 40, 70, 7);
         this.addObstacle(new Point(600, 300), 70, 40, 3);
-        this.addTurtles(10);
+        this.addTurtles(100);
     }
 
     public ArrayList<Obstacle> getObstacles() {
