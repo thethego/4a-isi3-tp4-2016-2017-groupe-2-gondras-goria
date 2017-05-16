@@ -41,16 +41,13 @@ public class FlockingAgent implements Runnable {
     }
 
     private void doRandomAction(){
-        Random rand = new Random();
-        int speed = rand.nextInt(100) + 1;
-        int dir = rand.nextInt(360);
-        turtle.setDir(dir);
-        turtle.forward(speed,model.getWidth(),model.getHeight());
+        Vector v = Vector.getRandomVector(dimension);
+        turtle.setDir(v.getAngle());
+        turtle.forward(v.getDist(),model.getWidth(),model.getHeight());
     }
 
     private void doFlockingAction(ArrayList<Turtle> neighbors){
         Vector action = getFlockingVector(neighbors);
-        System.out.println("action : "+action.getDist());
         turtle.setDir(action.getAngle());
         turtle.forward(action.getDist(),model.getWidth(),model.getHeight());
     }
@@ -67,29 +64,25 @@ public class FlockingAgent implements Runnable {
             meanDir /= neighbors.size();
              return new Vector(meanSpeed,meanDir,dimension);
         } else {
-            Random rand = new Random();
-            int speed = rand.nextInt(100) + 1;
-            int dir = rand.nextInt(360);
-            return new Vector(speed,dir,dimension);
+            return Vector.getRandomVector(dimension);
         }
     }
 
     private Vector getAlignment(ArrayList<Turtle> neighbors){
         if(neighbors.size() > 0){
-            int MeanX = 0;
-            int MeanY = 0;
+            int meanSpeed = 0;
+            int meanDir = 0;
+            Vector v;
             for(Turtle t : neighbors){
-                MeanX += t.getX();
-                MeanY += t.getY();
+                v = new Vector(turtle.getX(),turtle.getY(),t.getX(),t.getY(),dimension);
+                meanDir += v.getAngle();
+                meanSpeed += v.getDist();
             }
-            MeanX /= neighbors.size();
-            MeanY /= neighbors.size();
-            return new Vector(turtle.getX(),turtle.getY(),MeanX,MeanY,dimension);
+            meanDir /= neighbors.size();
+            meanSpeed /= neighbors.size();
+            return new Vector(meanSpeed,meanDir,dimension);
         } else {
-            Random rand = new Random();
-            int speed = rand.nextInt(100) + 1;
-            int dir = rand.nextInt(360);
-            return new Vector(speed,dir,dimension);
+            return Vector.getRandomVector(dimension);
         }
     }
 
@@ -98,22 +91,20 @@ public class FlockingAgent implements Runnable {
         Random rand = new Random();
         if(toCloseNeighbors.size() > 0){
             Vector v;
-            int MeanX = 0;
-            int MeanY = 0;
+            int meanSpeed = 0;
+            int meanDir = 0;
             for(Turtle t : toCloseNeighbors){
                 v = new Vector(turtle.getX(),turtle.getY(),t.getX(),t.getY(),dimension);
-//                v.addAngle(180);
+                v.inverseAngle();
                 v.setDist(INITIAL_MINIMAL_DIST - v.getDist());
-                MeanX += v.getX(turtle.getX());
-                MeanY += v.getX(turtle.getY());
+                meanDir += v.getAngle();
+                meanSpeed += v.getDist();
             }
-            MeanX /= toCloseNeighbors.size();
-            MeanY /= toCloseNeighbors.size();
-            return new Vector(turtle.getX(),turtle.getY(),MeanX,MeanY,dimension);
+            meanDir /= toCloseNeighbors.size();
+            meanSpeed /= toCloseNeighbors.size();
+            return new Vector(meanSpeed,meanDir,dimension);
         } else {
-            int speed = rand.nextInt(100) + 1;
-            int dir = rand.nextInt(360);
-            return new Vector(speed,dir,dimension);
+            return Vector.getRandomVector(dimension);
         }
     }
 
@@ -131,19 +122,12 @@ public class FlockingAgent implements Runnable {
             coefs.add(0.9);
             coefs.add(0.1);
         }
-        System.out.println(separation.getDist());
-        System.out.println(alignment.getDist());
-        System.out.println(cohesion.getDist());
         int newX = (int) ((float) separation.getX(turtle.getX())*coefs.get(0)
                 + (float) alignment.getX(turtle.getX())*coefs.get(1)
                 + (float) cohesion.getX(turtle.getX())*coefs.get(2));
         int newY = (int) ((float) separation.getY(turtle.getY())*coefs.get(0)
                 + (float) alignment.getY(turtle.getY())*coefs.get(1)
                 + (float) cohesion.getY(turtle.getY())*coefs.get(2));
-        System.out.println("newX : "+newX);
-        System.out.println("newY : "+newY);
-        System.out.println("oldX : "+turtle.getX());
-        System.out.println("oldY : "+turtle.getY());
         return new Vector(turtle.getX(),turtle.getY(),newX,newY,dimension);
     }
 }

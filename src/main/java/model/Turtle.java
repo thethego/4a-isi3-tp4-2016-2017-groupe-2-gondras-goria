@@ -36,10 +36,10 @@ public class Turtle{
     public void reset() {
         x = 0;
         y = 0;
-        dir = -90;
+        dir = 270;
         speed = 0;
         color = 0;
-        visible = true;
+        visible = false;
         segments.clear();
     }
 
