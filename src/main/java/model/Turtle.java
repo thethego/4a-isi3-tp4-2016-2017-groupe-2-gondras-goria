@@ -56,41 +56,40 @@ public class Turtle{
     }
 
     public void forwardRec(int dist, int width, int height){
+        int[] dimension = {width, height};
+        Vector v = new Vector(dist, dir, dimension);
+        if(isVisible()) {
+            int realX = v.getXWithoutDimension(x);
+            int realY = v.getYWithoutDimension(y);
 
-        int[] dimension = {width,height};
-        Vector v = new Vector(dist,dir,dimension);
-        int realX = v.getXWithoutDimension(x);
-        int realY = v.getYWithoutDimension(y);
+            //Toroidal environment, when we arrive on a side, we go on the other side
+            int endX = realX;
+            int endY = realY;
+            int newX = realX;
+            int newY = realY;
+            if (realX < 0) {
+                endX = 0;
+                newX = width;
+                endY = (int) Math.round(y + ((endX - x) / Math.cos(Vector.ratioDegRad * dir)) * Math.sin(Vector.ratioDegRad * dir));
+                newY = endY;
+            } else if (realX > width) {
+                endX = width;
+                newX = 0;
+                endY = (int) Math.round(y + ((endX - x) / Math.cos(Vector.ratioDegRad * dir)) * Math.sin(Vector.ratioDegRad * dir));
+                newY = endY;
+            }
+            if (realY < 0) {
+                endY = 0;
+                newY = height;
+                endX = (int) Math.round(x + ((endY - y) / Math.sin(Vector.ratioDegRad * dir)) * Math.cos(Vector.ratioDegRad * dir));
+                newX = endX;
+            } else if (realY > height) {
+                endY = height;
+                newY = 0;
+                endX = (int) Math.round(x + ((endY - y) / Math.sin(Vector.ratioDegRad * dir)) * Math.cos(Vector.ratioDegRad * dir));
+                newX = endX;
+            }
 
-        //Toroidal environment, when we arrive on a side, we go on the other side
-        int endX = realX;
-        int endY = realY;
-        int newX = realX;
-        int newY = realY;
-        if(realX<0){
-            endX = 0;
-            newX = width;
-            endY = (int) Math.round(y+((endX-x)/Math.cos(Vector.ratioDegRad*dir))*Math.sin(Vector.ratioDegRad*dir));
-            newY = endY;
-        } else if (realX > width) {
-            endX = width;
-            newX = 0;
-            endY = (int) Math.round(y+((endX-x)/Math.cos(Vector.ratioDegRad*dir))*Math.sin(Vector.ratioDegRad*dir));
-            newY = endY;
-        }
-        if(realY<0){
-            endY = 0;
-            newY = height;
-            endX = (int) Math.round(x+((endY-y)/Math.sin(Vector.ratioDegRad*dir))*Math.cos(Vector.ratioDegRad*dir));
-            newX = endX;
-        } else if (realY > height) {
-            endY = height;
-            newY = 0;
-            endX = (int) Math.round(x+((endY-y)/Math.sin(Vector.ratioDegRad*dir))*Math.cos(Vector.ratioDegRad*dir));
-            newX = endX;
-        }
-
-        if (visible) {
             Segment seg = new Segment();
 
             seg.getPtStart().setX(x);
@@ -100,11 +99,13 @@ public class Turtle{
             seg.setColor(color);
 
             segments.add(seg);
-        }
-        setPosition(newX,newY);
-        if(endX != realX || endY != realY){
-            dist = (int) Math.round(Math.sqrt(Math.pow(realX - endX,2)+Math.pow(realY - endY,2)));
-            forward(dist,width,height);
+            setPosition(newX, newY);
+            if (endX != realX || endY != realY) {
+                dist = (int) Math.round(Math.sqrt(Math.pow(realX - endX, 2) + Math.pow(realY - endY, 2)));
+                forward(dist, width, height);
+            }
+        } else {
+            setPosition(v.getX(x),v.getY(y));
         }
     }
 

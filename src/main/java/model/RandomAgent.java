@@ -27,7 +27,9 @@ public class RandomAgent implements Runnable {
                 Random rand = new Random();
                 int speed = rand.nextInt(10) + 1;
                 turtle.setRandomDir();
-                model.forward(speed, this.turtle);
+                while(!model.forward(speed, this.turtle)){
+                    turtle.setRandomDir();
+                }
                 model.notifyView();
                 Thread.sleep(INITIAL_TIME_SLEEP);
             } catch (InterruptedException e) {

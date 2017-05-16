@@ -75,7 +75,7 @@ public class Model  extends Observable {
         this.forward(dist, this.currentTurtle);
     }
 
-    public synchronized void forward(int dist, Turtle turtle) {
+    public synchronized boolean forward(int dist, Turtle turtle) {
         Vector vect = new Vector(dist, turtle.getDir(), new int[]{this.width, this.height});
         Point startPoint = new Point(turtle.getX(), turtle.getY());
         Point endPoint = new Point(vect.getX(startPoint.getX()), vect.getY(startPoint.getY()));
@@ -84,8 +84,11 @@ public class Model  extends Observable {
         for (Obstacle o : this.obstacles) {
             isInObstacle = (isInObstacle || o.isInObstacle(endPoint));
         }
-        if(!isInObstacle) turtle.forward(dist,width,height);
-        notifyView();
+        if(!isInObstacle){
+            turtle.forward(dist,width,height);
+            notifyView();
+        }
+        return !isInObstacle;
     }
 
     public synchronized void right(int ang) {
