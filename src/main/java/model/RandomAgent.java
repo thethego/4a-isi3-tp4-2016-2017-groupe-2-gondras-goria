@@ -11,7 +11,8 @@ import java.util.Random;
  * Created by hagoterio on 01/05/17.
  */
 public class RandomAgent implements Runnable {
-    private final static int INITIAL_TIME_SLEEP = 100;
+    private final static int INITIAL_TIME_SLEEP = 40;
+    private final static int DIR_VARIATION = 40;
 
     private Model model;
     private Turtle turtle;
@@ -25,8 +26,10 @@ public class RandomAgent implements Runnable {
         while (true) {
             try {
                 Random rand = new Random();
-                int speed = rand.nextInt(100) + 1;
-                int dir = rand.nextInt(361);
+                int speed = rand.nextInt(10) + 1;
+                int oldDir = this.turtle.getDir();
+                int dir = oldDir + rand.nextInt(2*DIR_VARIATION) - DIR_VARIATION;
+                if(dir < 0) dir = 360 - dir;
                 turtle.setDir(dir);
                 model.forward(speed, this.turtle);
                 model.notifyView();

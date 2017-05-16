@@ -18,13 +18,17 @@ public class Model  extends Observable {
 
     public Model(int width, int height, int mode) {
         this.turtles = new ArrayList<Turtle>();
+        this.obstacles = new ArrayList<>();
         this.color = 0;
         this.width = width;
         this.height = height;
         this.mode = mode;
-        this.addTurtle();
-        this.obstacles = new ArrayList<>();
-        this.addObstacle(new Point(0, 0), 120, 200);
+        this.addObstacle(new Point(10, 50), 60, 40, 2);
+        this.addObstacle(new Point(200, 100), 40, 70, 4);
+        this.addObstacle(new Point(500, 10), 80, 70, 6);
+        this.addObstacle(new Point(200, 300), 40, 70, 7);
+        this.addObstacle(new Point(600, 300), 70, 40, 3);
+        this.addTurtles(2);
     }
 
     public ArrayList<Obstacle> getObstacles() {
@@ -41,16 +45,23 @@ public class Model  extends Observable {
         notifyView();
     }
 
-    public synchronized void addTurtle(){
-        this.currentTurtle = new Turtle( width/2,height/2);
-        this.currentTurtle.setColor(color);
-        if(mode == 2){
-            new Thread(new RandomAgent(this,currentTurtle)).start();
-        } else if(mode == 3) {
-            new Thread(new FlockingAgent(this,currentTurtle)).start();
+    public synchronized void addTurtles(int n){
+        for(int i = 0 ; i < n ; i++){
+            this.addTurtle();
         }
-        this.turtles.add(currentTurtle);
-        notifyView(currentTurtle);
+    }
+
+    public synchronized void addTurtle(){
+        Turtle turtle = new Turtle( width/2,height/2);
+        if(mode == 2){
+            new Thread(new RandomAgent(this, turtle)).start();
+        } else if(mode == 3) {
+            new Thread(new FlockingAgent(this, turtle)).start();
+        }
+        this.turtles.add(turtle);
+        this.currentTurtle = turtle;
+        this.currentTurtle.setColor(color);
+        notifyView(turtle);
     }
 
     public synchronized void addObstacle(Point point, int height, int width){
@@ -76,7 +87,6 @@ public class Model  extends Observable {
             isInObstacle = (isInObstacle || o.isInObstacle(endPoint));
         }
         if(!isInObstacle) turtle.forward(dist,width,height);
-        else System.out.println("in obstacle");
         notifyView();
     }
 
