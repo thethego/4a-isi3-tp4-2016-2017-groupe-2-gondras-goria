@@ -96,11 +96,13 @@ public class Vector {
         return (int) (Math.round(y+dist*Math.sin(ratioDegRad*angle)));
     }
 
-    public void setDist(int dist) {
+    public void setDist(double dist) {
         this.dist = dist;
     }
 
     public void setAngle(double angle) {
+        angle %= 360;
+        if(angle < 0) angle = 360 + angle;
         this.angle = angle;
     }
 
@@ -125,9 +127,6 @@ public class Vector {
         ret[0] = getDist(x1, y1, x2, y2);
         if(ret[0] > 0){
             ret[1] = Math.round(Math.toDegrees(Math.acos((float) (x2-x1)/ret[0])));
-            if(y2 < y1){
-                ret[1] *= -1;
-            }
         } else {
             ret[1] = 0;
         }
@@ -142,7 +141,7 @@ public class Vector {
     }
 
     public static Vector getRandomVector(int[] dimension, Turtle turtle){
-        int angle = turtle.getRandomDir();
+        double angle = turtle.getRandomDir();
         return  new Vector(10,angle,dimension);
     }
 }

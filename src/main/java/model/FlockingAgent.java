@@ -9,7 +9,7 @@ import java.util.Random;
 public class FlockingAgent implements Runnable {
 
     private final static int INITIAL_DIST_NEIGHBORHOOD = 200;
-    private final static int INITIAL_MINIMAL_DIST = 40;
+    private final static int INITIAL_MINIMAL_DIST = 20;
     private final static int INITIAL_TIME_SLEEP = 50;
     private final static double WEIGHT_COHESION = 0.8;
     private final static double WEIGHT_SEPARATION = 1d;
@@ -46,19 +46,19 @@ public class FlockingAgent implements Runnable {
 
     private void doRandomAction(){
         Vector action = Vector.getRandomVector(dimension,turtle);
-        turtle.setDir((int) action.getAngle());
-        while(!model.forward((int) action.getDist(), this.turtle)){
+        turtle.setDir(action.getAngle());
+        while(!model.forward(action.getDist(), this.turtle)){
             action.addAngle(5);
-            turtle.setDir((int) action.getAngle());
+            turtle.setDir(action.getAngle());
         }
     }
 
     private void doFlockingAction(ArrayList<Turtle> neighbors){
         Vector action = getFlockingVector(neighbors);
-        turtle.setDir((int) action.getAngle());
-        while(!model.forward((int) action.getDist(), this.turtle)){
+        turtle.setDir(action.getAngle());
+        while(!model.forward(action.getDist(), this.turtle)){
             action.addAngle(10);
-            turtle.setDir((int) action.getAngle());
+            turtle.setDir(action.getAngle());
         }
     }
 
@@ -69,7 +69,7 @@ public class FlockingAgent implements Runnable {
                 meanDir += t.getDir();
             }
             meanDir /= neighbors.size();
-             return new Vector(10*WEIGHT_COHESION,meanDir,dimension);
+             return new Vector(100*WEIGHT_COHESION,meanDir,dimension);
         } else {
             return Vector.getRandomVector(dimension,turtle);
         }
@@ -84,7 +84,7 @@ public class FlockingAgent implements Runnable {
                 meanDir += v.getAngle();
             }
             meanDir /= neighbors.size();
-            return new Vector(10*WEIGHT_ALIGN,meanDir,dimension);
+            return new Vector(100*WEIGHT_ALIGN,meanDir,dimension);
         } else {
             return Vector.getRandomVector(dimension,turtle);
         }
@@ -99,15 +99,16 @@ public class FlockingAgent implements Runnable {
             for(Turtle t : toCloseNeighbors){
                 v = new Vector(turtle.getX(),turtle.getY(),t.getX(),t.getY(),dimension);
                 if(v.getDist() == 0){
-                    v.setAngle(turtle.getRandomDir());
+                    Random rand = new Random();
+                    v.setAngle(rand.nextInt(360));
                 } else {
                     v.inverseAngle();
                 }
-                v.setDist((int) (INITIAL_MINIMAL_DIST - v.getDist()));
+                v.setDist((INITIAL_MINIMAL_DIST - v.getDist()));
                 meanDir += v.getAngle();
             }
             meanDir /= toCloseNeighbors.size();
-            return new Vector(10*WEIGHT_SEPARATION,meanDir,dimension);
+            return new Vector(100*WEIGHT_SEPARATION,meanDir,dimension);
         } else {
             return new Vector(0,0,dimension);
         }
@@ -117,16 +118,25 @@ public class FlockingAgent implements Runnable {
         Vector separation = getSeparation();
         Vector alignment = getAlignment(neighbors);
         Vector cohesion = getCohesion(neighbors);
-        Vector current = new Vector(10*WEIGHT_CURRENT,turtle.getDir(),dimension);
-        double totalWeight = WEIGHT_ALIGN + WEIGHT_COHESION + WEIGHT_SEPARATION + WEIGHT_CURRENT;
+        Vector current = new Vector(100*WEIGHT_CURRENT,turtle.getDir(),dimension);
+        double totalWeight = WEIGHT_ALIGN + WEIGHT_COHESION + WEIGHT_CURRENT;
+        if(separation.getDist() > 0){
+            totalWeight += WEIGHT_SEPARATION;
+        }
         double dist = ( separation.getDist()
                 +alignment.getDist()
                 +cohesion.getDist()
-                +current.getDist()) / 4;
+                +current.getDist()) / 40;
         double dir = ( separation.getAngle()*WEIGHT_SEPARATION/totalWeight
                 +alignment.getAngle()*WEIGHT_ALIGN/totalWeight
                 +cohesion.getAngle()*WEIGHT_COHESION/totalWeight
                 +current.getAngle()*WEIGHT_CURRENT/totalWeight);
+
+        System.out.println(dir);
+        System.out.println("separation : "+separation.getAngle());
+        System.out.println("alignment : "+alignment.getAngle());
+        System.out.println("cohesion : "+cohesion.getAngle());
+        System.out.println("current : "+current.getAngle());
         return new Vector(dist,dir,dimension);
     }
 }

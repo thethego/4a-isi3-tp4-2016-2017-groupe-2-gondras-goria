@@ -71,11 +71,11 @@ public class Model  extends Observable {
         notifyView(obstacles.get(this.obstacles.size()-1));
     }
 
-    public synchronized void forward(int dist) {
+    public synchronized void forward(double dist) {
         this.forward(dist, this.currentTurtle);
     }
 
-    public synchronized boolean forward(int dist, Turtle turtle) {
+    public synchronized boolean forward(double dist, Turtle turtle) {
         Vector vect = new Vector(dist, turtle.getDir(), new int[]{this.width, this.height});
         Point startPoint = new Point(turtle.getX(), turtle.getY());
         Point endPoint = new Point(vect.getX(startPoint.getX()), vect.getY(startPoint.getY()));

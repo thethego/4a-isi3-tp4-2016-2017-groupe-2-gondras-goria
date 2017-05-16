@@ -12,10 +12,10 @@ public class Turtle{
 
     private ArrayList<Segment> segments;
     private int x, y;
-    private int dir;
+    private double dir;
     private boolean visible;
     private int color;
-    private int speed;
+    private double speed;
 
     public Turtle() {
         this(0,0);
@@ -51,11 +51,13 @@ public class Turtle{
         y = newY;
     }
 
-    public void setDir(int newDir){
+    public void setDir(double newDir){
+        newDir %= 360;
+        if(newDir < 0) newDir = 360 + newDir;
         dir = newDir;
     }
 
-    public void forwardRec(int dist, int width, int height){
+    public void forwardRec(double dist, int width, int height){
         int[] dimension = {width, height};
         Vector v = new Vector(dist, dir, dimension);
         if(isVisible()) {
@@ -112,7 +114,7 @@ public class Turtle{
         }
     }
 
-    public void forward(int dist, int width, int height) {
+    public void forward(double dist, int width, int height) {
         this.speed = dist;
         forwardRec(dist,width,height);
 
@@ -179,11 +181,11 @@ public class Turtle{
         return y;
     }
 
-    public int getDir() {
+    public double getDir() {
         return dir;
     }
 
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
@@ -191,9 +193,9 @@ public class Turtle{
         return visible;
     }
 
-    public int getRandomDir(){
+    public double getRandomDir(){
         Random rand = new Random();
-        int newDir = getDir() + rand.nextInt(2*DIR_VARIATION) - DIR_VARIATION;
+        double newDir = getDir() + rand.nextInt(2*DIR_VARIATION) - DIR_VARIATION;
         if(newDir < 0) newDir += 360;
         return newDir;
     }
