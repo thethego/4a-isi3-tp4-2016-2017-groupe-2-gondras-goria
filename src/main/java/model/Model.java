@@ -26,7 +26,7 @@ public class Model  extends Observable {
         this.addObstacle(new Point(500, 10), 80, 70, 6);
         this.addObstacle(new Point(200, 300), 40, 70, 7);
         this.addObstacle(new Point(600, 300), 70, 40, 3);
-        this.addTurtles(2);
+        this.addTurtles(10);
     }
 
     public ArrayList<Obstacle> getObstacles() {
@@ -85,7 +85,6 @@ public class Model  extends Observable {
             isInObstacle = (isInObstacle || o.isInObstacle(endPoint));
         }
         if(!isInObstacle) turtle.forward(dist,width,height);
-        else System.out.println("in obstacle");
         notifyView();
     }
 
