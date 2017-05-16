@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by hagoterio on 02/05/17.
@@ -31,6 +32,8 @@ public class Vector {
         int minDist = Integer.MAX_VALUE;
         int currentAngle = 0;
 
+        //for the toroidal environment
+        //we search the best way to go to another point
         values = getAll(x1,y1,x2,y2);
         vectors.add(values);
         values = getAll(x1,y1,x2-width,y2-height);
@@ -49,8 +52,6 @@ public class Vector {
         vectors.add(values);
         values = getAll(x1,y1,x2-width,y2);
         vectors.add(values);
-
-
         for(int[] value : vectors){
             if(value[0] < minDist){
                 minDist = value[0];
@@ -71,19 +72,19 @@ public class Vector {
     }
 
     public int getX(int x){
-        return (int) Math.round(x+dist*Math.cos(ratioDegRad*angle));
+        return (int) (Math.round(x+dist*Math.cos(ratioDegRad*angle)))%width;
     }
 
     public int getY(int y){
-        return (int) Math.round(y+dist*Math.sin(ratioDegRad*angle));
+        return (int) (Math.round(y+dist*Math.sin(ratioDegRad*angle)))%height;
     }
 
     public void setDist(int dist) {
         this.dist = dist;
     }
 
-    public void addAngle(int value){
-        angle += value;
+    public void inverseAngle(){
+        angle = (angle + 180) % 360;
     }
 
     public int getDist(int x1, int y1, int x2, int y2){
@@ -106,5 +107,12 @@ public class Vector {
             ret[1] = 0;
         }
         return ret;
+    }
+
+    public static Vector getRandomVector(int[] dimension){
+        Random rand = new Random();
+        int dist = rand.nextInt(100) + 1;
+        int angle = rand.nextInt(360);
+        return  new Vector(dist,angle,dimension);
     }
 }
