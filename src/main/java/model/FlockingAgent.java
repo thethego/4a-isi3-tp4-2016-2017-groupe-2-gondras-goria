@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class FlockingAgent implements Runnable {
 
-    private final static int INITIAL_DIST_NEIGHBORHOOD = 100;
+    private final static int INITIAL_DIST_NEIGHBORHOOD = 200;
     private final static int INITIAL_MINIMAL_DIST = 40;
     private final static int INITIAL_TIME_SLEEP = 50;
     private final static double WEIGHT_COHESION = 0.8;
@@ -64,13 +64,10 @@ public class FlockingAgent implements Runnable {
 
     private Vector getCohesion(ArrayList<Turtle> neighbors){
         if(neighbors.size() > 0){
-            int meanSpeed = 0;
             int meanDir = 0;
             for(Turtle t : neighbors){
-                meanSpeed += t.getSpeed();
                 meanDir += t.getDir();
             }
-            meanSpeed /= neighbors.size();
             meanDir /= neighbors.size();
              return new Vector(10*WEIGHT_COHESION,meanDir,dimension);
         } else {
@@ -80,16 +77,13 @@ public class FlockingAgent implements Runnable {
 
     private Vector getAlignment(ArrayList<Turtle> neighbors){
         if(neighbors.size() > 0){
-            int meanSpeed = 0;
             int meanDir = 0;
             Vector v;
             for(Turtle t : neighbors){
                 v = new Vector(turtle.getX(),turtle.getY(),t.getX(),t.getY(),dimension);
                 meanDir += v.getAngle();
-                meanSpeed += v.getDist();
             }
             meanDir /= neighbors.size();
-            meanSpeed /= neighbors.size();
             return new Vector(10*WEIGHT_ALIGN,meanDir,dimension);
         } else {
             return Vector.getRandomVector(dimension,turtle);
@@ -101,17 +95,14 @@ public class FlockingAgent implements Runnable {
 
         if(toCloseNeighbors.size() > 0){
             Vector v;
-            int meanSpeed = 0;
             int meanDir = 0;
             for(Turtle t : toCloseNeighbors){
                 v = new Vector(turtle.getX(),turtle.getY(),t.getX(),t.getY(),dimension);
                 v.inverseAngle();
                 v.setDist((int) (INITIAL_MINIMAL_DIST - v.getDist()));
                 meanDir += v.getAngle();
-                meanSpeed += v.getDist();
             }
             meanDir /= toCloseNeighbors.size();
-            meanSpeed /= toCloseNeighbors.size();
             return new Vector(10*WEIGHT_SEPARATION,meanDir,dimension);
         } else {
             return new Vector(0,0,dimension);
@@ -123,14 +114,15 @@ public class FlockingAgent implements Runnable {
         Vector alignment = getAlignment(neighbors);
         Vector cohesion = getCohesion(neighbors);
         Vector current = new Vector(10*WEIGHT_CURRENT,turtle.getDir(),dimension);
+        double totalWeight = WEIGHT_ALIGN + WEIGHT_COHESION + WEIGHT_SEPARATION + WEIGHT_CURRENT;
         double dist = ( separation.getDist()
                 +alignment.getDist()
                 +cohesion.getDist()
                 +current.getDist()) / 4;
-        double dir = ( separation.getAngle()
-                +alignment.getAngle()
-                +cohesion.getAngle()
-                +current.getAngle()) / 4;
+        double dir = ( separation.getAngle()*WEIGHT_SEPARATION/totalWeight
+                +alignment.getAngle()*WEIGHT_ALIGN/totalWeight
+                +cohesion.getAngle()*WEIGHT_COHESION/totalWeight
+                +current.getAngle()*WEIGHT_CURRENT/totalWeight);
         return new Vector(dist,dir,dimension);
     }
 }

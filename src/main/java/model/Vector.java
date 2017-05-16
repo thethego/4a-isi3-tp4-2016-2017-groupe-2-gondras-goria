@@ -72,11 +72,20 @@ public class Vector {
     }
 
     public int getX(int x){
-        return (int) (Math.round(x+dist*Math.cos(ratioDegRad*angle)))%width;
+        int newX = (int) (Math.round(x+dist*Math.cos(ratioDegRad*angle)))%width;
+        if(newX < 0){
+            newX = width - newX;
+        }
+        return newX;
+
     }
 
     public int getY(int y){
-        return (int) (Math.round(y+dist*Math.sin(ratioDegRad*angle)))%height;
+        int newY = (int) (Math.round(y+dist*Math.sin(ratioDegRad*angle)))%height;
+        if(newY < 0){
+            newY = height - newY;
+        }
+        return newY;
     }
 
     public int getXWithoutDimension(int x){
