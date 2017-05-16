@@ -1,5 +1,6 @@
 package view;
 
+import model.Obstacle;
 import model.Turtle;
 
 import javax.swing.*;
@@ -17,9 +18,11 @@ import java.util.Observer;
  */
 public class DrawSheet extends JPanel implements Observer {
     private ArrayList<TurtleView> turtleViews;
+    private ArrayList<ObstacleView> obstacleViews;
 
     public DrawSheet() {
         turtleViews = new ArrayList<TurtleView>();
+        obstacleViews = new ArrayList<>();
     }
 
     public ArrayList<TurtleView> getTurtleViews() {
@@ -35,6 +38,11 @@ public class DrawSheet extends JPanel implements Observer {
         this.turtleViews.add(turtleView);
     }
 
+    public void addObstacle(Obstacle obstacle){
+        ObstacleView obstacleView = new ObstacleView(obstacle);
+        obstacleViews.add(obstacleView);
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -45,20 +53,38 @@ public class DrawSheet extends JPanel implements Observer {
         g.fillRect(0,0,dim.width, dim.height);
         g.setColor(c);
 
+        showObstacle(g);
         showTurtles(g);
     }
 
     public void showTurtles(Graphics g) {
-        for(Iterator it = turtleViews.iterator();it.hasNext();) {
+        for(Iterator it = this.turtleViews.iterator();it.hasNext();) {
             TurtleView t = (TurtleView) it.next();
             t.drawTurtle(g);
         }
     }
 
+    public void showObstacle(Graphics g) {
+        for(Iterator it = this.obstacleViews.iterator();it.hasNext();) {
+            ObstacleView o = (ObstacleView) it.next();
+            o.drawObstacle(g);
+        }
+    }
+
     public void update(Observable o, Object arg){
         if(arg instanceof Turtle){
-            TurtleView tView = new TurtleView((Turtle)arg);
-            turtleViews.add(tView);
+            this.addTurtle((Turtle)arg);
+        }
+        if(arg instanceof Obstacle){
+            this.addObstacle((Obstacle)arg);
+        }
+        if(arg instanceof ArrayList){
+            for(Iterator it = ((ArrayList)arg).iterator();it.hasNext();) {
+                Object next = it.next();
+                if(next instanceof Obstacle){
+                    this.addObstacle((Obstacle)next);
+                }
+            }
         }
         this.repaint();
     }

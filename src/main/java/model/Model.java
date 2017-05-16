@@ -14,6 +14,7 @@ public class Model  extends Observable {
     private int height,width;
     private int color;
     private int mode;
+    private ArrayList<Obstacle> obstacles;
 
     public Model(int width, int height, int mode) {
         this.turtles = new ArrayList<Turtle>();
@@ -22,6 +23,12 @@ public class Model  extends Observable {
         this.height = height;
         this.mode = mode;
         this.addTurtle();
+        this.obstacles = new ArrayList<>();
+        this.addObstacle(new Point(0, 0), 120, 200);
+    }
+
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
     }
 
     public synchronized void setPosition(double newX, double newY) {
@@ -46,8 +53,18 @@ public class Model  extends Observable {
         notifyView(currentTurtle);
     }
 
+    public synchronized void addObstacle(Point point, int height, int width){
+        this.addObstacle(point, height, width, this.color);
+    }
+
+    public synchronized void addObstacle(Point point, int height, int width, int color){
+        obstacles.add(new Obstacle(point, height, width, color));
+        notifyView(obstacles.get(this.obstacles.size()-1));
+    }
+
     public synchronized void forward(int dist) {
         this.currentTurtle.forward(dist,width,height);
+        this.obstacles.get(0).isInObstacle(new Point(this.currentTurtle.getX(), this.currentTurtle.getY()));
         notifyView();
     }
 
