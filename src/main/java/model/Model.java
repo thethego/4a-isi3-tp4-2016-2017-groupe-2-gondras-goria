@@ -63,8 +63,20 @@ public class Model  extends Observable {
     }
 
     public synchronized void forward(int dist) {
-        this.currentTurtle.forward(dist,width,height);
-        this.obstacles.get(0).isInObstacle(new Point(this.currentTurtle.getX(), this.currentTurtle.getY()));
+        this.forward(dist, this.currentTurtle);
+    }
+
+    public synchronized void forward(int dist, Turtle turtle) {
+        Vector vect = new Vector(dist, turtle.getDir(), new int[]{this.width, this.height});
+        Point startPoint = new Point(turtle.getX(), turtle.getY());
+        Point endPoint = new Point(vect.getX(startPoint.getX()), vect.getY(startPoint.getY()));
+        Boolean isInObstacle = false;
+
+        for (Obstacle o : this.obstacles) {
+            isInObstacle = (isInObstacle || o.isInObstacle(endPoint));
+        }
+        if(!isInObstacle) turtle.forward(dist,width,height);
+        else System.out.println("in obstacle");
         notifyView();
     }
 

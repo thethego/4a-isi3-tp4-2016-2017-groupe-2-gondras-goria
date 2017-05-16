@@ -40,12 +40,9 @@ public class Obstacle {
 
         if(this.point.getX() <= point.getX() && (this.point.getX() + this.width) >= point.getX()){
             if(this.point.getY() <= point.getY() && (this.point.getY() + this.height) >= point.getY()){
-                System.out.println("C'est dans l'obstacle");
                 return true;
             }
         }
-
-        System.out.println("C'est pas dans l'obstacle");
         return false;
     }
 }
