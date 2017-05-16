@@ -172,7 +172,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
         Model model = new Model(width,height,mode);
         model.addObserver(this.sheet);
         this.sheet.update(model, model.getObstacles());
-        this.sheet.update(model, model.getCurrentTurtle());
+        this.sheet.update(model, model.getTurtles());
 
         // On créé le controleur des tortues
         this.controller = new Controller(model);
