@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by theo on 12/04/17.
@@ -34,7 +35,7 @@ public class TurtleView{
             return;
 
         // Dessine les segments
-        ArrayList<Segment> segments = (ArrayList<Segment>) turtle.getSegments().clone();
+        CopyOnWriteArrayList<Segment> segments = (CopyOnWriteArrayList<Segment>) turtle.getSegments().clone();
         for(Iterator it = segments.iterator(); it.hasNext();) {
             Segment seg = (Segment) it.next();
             drawSegment(graph, seg);

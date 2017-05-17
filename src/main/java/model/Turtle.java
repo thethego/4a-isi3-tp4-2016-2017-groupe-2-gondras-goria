@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by theo on 12/04/17.
@@ -10,7 +11,7 @@ public class Turtle{
 
     private final static int DIR_VARIATION = 40;
 
-    private ArrayList<Segment> segments;
+    private CopyOnWriteArrayList<Segment> segments;
     private int x, y;
     private double dir;
     private boolean visible;
@@ -22,7 +23,7 @@ public class Turtle{
     }
 
     public Turtle(int newX, int newY) {
-        segments = new ArrayList<Segment>();
+        segments = new CopyOnWriteArrayList<>();
         reset();
         x = newX;
         y = newY;
@@ -37,10 +38,11 @@ public class Turtle{
     }
 
     public void reset() {
+        Random rand = new Random();
         x = 0;
         y = 0;
-        dir = 270;
-        speed = 0;
+        dir = rand.nextInt(360)+1;
+        speed = rand.nextInt(9)+1;
         color = 0;
         visible = true;
         segments.clear();
@@ -169,7 +171,7 @@ public class Turtle{
         }
     }
 
-    public ArrayList<Segment> getSegments() {
+    public CopyOnWriteArrayList<Segment> getSegments() {
         return segments;
     }
 
