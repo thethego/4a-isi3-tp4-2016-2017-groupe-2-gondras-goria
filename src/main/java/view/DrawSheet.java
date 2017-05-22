@@ -1,13 +1,12 @@
 package view;
 
 import model.Obstacle;
+import model.ObstacleCircle;
+import model.ObstacleRectangle;
 import model.Turtle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -40,7 +39,13 @@ public class DrawSheet extends JPanel implements Observer {
     }
 
     public void addObstacle(Obstacle obstacle){
-        ObstacleView obstacleView = new ObstacleView(obstacle);
+        ObstacleView obstacleView = null;
+        if(obstacle instanceof ObstacleRectangle)
+            obstacleView = new ObstacleRectangleView((ObstacleRectangle)obstacle);
+        else if(obstacle instanceof ObstacleCircle)
+            obstacleView = new ObstacleCircleView((ObstacleCircle)obstacle);
+
+//        obstacleView = new ObstacleView(obstacle);
         obstacleViews.add(obstacleView);
     }
 
@@ -54,7 +59,7 @@ public class DrawSheet extends JPanel implements Observer {
         g.fillRect(0,0,dim.width, dim.height);
         g.setColor(c);
 
-        showObstacle(g);
+        showObstacles(g);
         showTurtles(g);
     }
 
@@ -65,7 +70,7 @@ public class DrawSheet extends JPanel implements Observer {
         }
     }
 
-    public void showObstacle(Graphics g) {
+    public void showObstacles(Graphics g) {
         for(Iterator it = this.obstacleViews.iterator();it.hasNext();) {
             ObstacleView o = (ObstacleView) it.next();
             o.drawObstacle(g);
