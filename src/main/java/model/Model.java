@@ -21,11 +21,11 @@ public class Model  extends Observable {
         this.width = width;
         this.height = height;
         this.mode = mode;
-        this.addObstacle(new Point(10, 50), 60, 40, 2);
-        this.addObstacle(new Point(200, 100), 40, 70, 4);
-        this.addObstacle(new Point(500, 10), 80, 70, 6);
-        this.addObstacle(new Point(200, 300), 40, 70, 7);
-        this.addObstacle(new Point(600, 300), 70, 40, 3);
+        this.addObstacleRectangle(new Point(10, 50), 60, 40);
+        this.addObstacleCircle(new Point(200, 100), 70);
+        this.addObstacleRectangle(new Point(500, 10), 80, 70);
+        this.addObstacleCircle(new Point(200, 300), 40);
+        this.addObstacleRectangle(new Point(600, 300), 70, 40);
         this.addTurtles(100);
     }
 
@@ -62,12 +62,13 @@ public class Model  extends Observable {
         notifyView(turtle);
     }
 
-    public synchronized void addObstacle(Point point, int height, int width){
-        this.addObstacle(point, height, width, this.color);
+    public synchronized void addObstacleRectangle(Point point, int height, int width){
+        obstacles.add(new ObstacleRectangle(point, height, width));
+        notifyView(obstacles.get(this.obstacles.size()-1));
     }
 
-    public synchronized void addObstacle(Point point, int height, int width, int color){
-        obstacles.add(new Obstacle(point, height, width, color));
+    public synchronized void addObstacleCircle(Point point, int diameter){
+        obstacles.add(new ObstacleCircle(point, diameter));
         notifyView(obstacles.get(this.obstacles.size()-1));
     }
 
