@@ -1,25 +1,29 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by theo on 12/04/17.
  */
 public class Turtle{
 
-    private ArrayList<Segment> segments;
+    private final static int DIR_VARIATION = 40;
+
+    private CopyOnWriteArrayList<Segment> segments;
     private int x, y;
-    private int dir;
+    private double dir;
     private boolean visible;
     private int color;
-    private int speed;
+    private double speed;
 
     public Turtle() {
         this(0,0);
     }
 
     public Turtle(int newX, int newY) {
-        segments = new ArrayList<Segment>();
+        segments = new CopyOnWriteArrayList<>();
         reset();
         x = newX;
         y = newY;
@@ -34,12 +38,13 @@ public class Turtle{
     }
 
     public void reset() {
+        Random rand = new Random();
         x = 0;
         y = 0;
-        dir = 270;
-        speed = 0;
+        dir = rand.nextInt(360)+1;
+        speed = rand.nextInt(9)+1;
         color = 0;
-        visible = false;
+        visible = true;
         segments.clear();
     }
 
@@ -48,46 +53,47 @@ public class Turtle{
         y = newY;
     }
 
-    public void setDir(int newDir){
+    public void setDir(double newDir){
+        newDir %= 360;
+        if(newDir < 0) newDir = 360 + newDir;
         dir = newDir;
     }
 
-    public void forwardRec(int dist, int width, int height){
+    public void forwardRec(double dist, int width, int height){
+        int[] dimension = {width, height};
+        Vector v = new Vector(dist, dir, dimension);
+        if(isVisible()) {
+            int realX = v.getXWithoutDimension(x);
+            int realY = v.getYWithoutDimension(y);
 
-        int[] dimension = {width,height};
-        Vector v = new Vector(dist,dir,dimension);
-        int realX = v.getXWithoutDimension(x);
-        int realY = v.getYWithoutDimension(y);
+            //Toroidal environment, when we arrive on a side, we go on the other side
+            int endX = realX;
+            int endY = realY;
+            int newX = realX;
+            int newY = realY;
+            if (realX < 0) {
+                endX = 0;
+                newX = width;
+                endY = (int) Math.round(y + ((endX - x) / Math.cos(Vector.ratioDegRad * dir)) * Math.sin(Vector.ratioDegRad * dir));
+                newY = endY;
+            } else if (realX > width) {
+                endX = width;
+                newX = 0;
+                endY = (int) Math.round(y + ((endX - x) / Math.cos(Vector.ratioDegRad * dir)) * Math.sin(Vector.ratioDegRad * dir));
+                newY = endY;
+            }
+            if (realY < 0) {
+                endY = 0;
+                newY = height;
+                endX = (int) Math.round(x + ((endY - y) / Math.sin(Vector.ratioDegRad * dir)) * Math.cos(Vector.ratioDegRad * dir));
+                newX = endX;
+            } else if (realY > height) {
+                endY = height;
+                newY = 0;
+                endX = (int) Math.round(x + ((endY - y) / Math.sin(Vector.ratioDegRad * dir)) * Math.cos(Vector.ratioDegRad * dir));
+                newX = endX;
+            }
 
-        //Toroidal environment, when we arrive on a side, we go on the other side
-        int endX = realX;
-        int endY = realY;
-        int newX = realX;
-        int newY = realY;
-        if(realX<0){
-            endX = 0;
-            newX = width;
-            endY = (int) Math.round(y+((endX-x)/Math.cos(Vector.ratioDegRad*dir))*Math.sin(Vector.ratioDegRad*dir));
-            newY = endY;
-        } else if (realX > width) {
-            endX = width;
-            newX = 0;
-            endY = (int) Math.round(y+((endX-x)/Math.cos(Vector.ratioDegRad*dir))*Math.sin(Vector.ratioDegRad*dir));
-            newY = endY;
-        }
-        if(realY<0){
-            endY = 0;
-            newY = height;
-            endX = (int) Math.round(x+((endY-y)/Math.sin(Vector.ratioDegRad*dir))*Math.cos(Vector.ratioDegRad*dir));
-            newX = endX;
-        } else if (realY > height) {
-            endY = height;
-            newY = 0;
-            endX = (int) Math.round(x+((endY-y)/Math.sin(Vector.ratioDegRad*dir))*Math.cos(Vector.ratioDegRad*dir));
-            newX = endX;
-        }
-
-        if (visible) {
             Segment seg = new Segment();
 
             seg.getPtStart().setX(x);
@@ -97,15 +103,20 @@ public class Turtle{
             seg.setColor(color);
 
             segments.add(seg);
-        }
-        setPosition(newX,newY);
-        if(endX != realX || endY != realY){
-            dist = (int) Math.round(Math.sqrt(Math.pow(realX - endX,2)+Math.pow(realY - endY,2)));
-            forward(dist,width,height);
+            if(segments.size() > 15){
+                segments.remove(0);
+            }
+            setPosition(newX, newY);
+            if (endX != realX || endY != realY) {
+                dist = (int) Math.round(Math.sqrt(Math.pow(realX - endX, 2) + Math.pow(realY - endY, 2)));
+                forward(dist, width, height);
+            }
+        } else {
+            setPosition(v.getX(x),v.getY(y));
         }
     }
 
-    public void forward(int dist, int width, int height) {
+    public void forward(double dist, int width, int height) {
         this.speed = dist;
         forwardRec(dist,width,height);
 
@@ -160,7 +171,7 @@ public class Turtle{
         }
     }
 
-    public ArrayList<Segment> getSegments() {
+    public CopyOnWriteArrayList<Segment> getSegments() {
         return segments;
     }
 
@@ -172,15 +183,26 @@ public class Turtle{
         return y;
     }
 
-    public int getDir() {
+    public double getDir() {
         return dir;
     }
 
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
     public boolean isVisible() {
         return visible;
+    }
+
+    public double getRandomDir(){
+        Random rand = new Random();
+        double newDir = getDir() + rand.nextInt(2*DIR_VARIATION) - DIR_VARIATION;
+        if(newDir < 0) newDir += 360;
+        return newDir;
+    }
+
+    public void setRandomDir(){
+        setDir(getRandomDir());
     }
 }

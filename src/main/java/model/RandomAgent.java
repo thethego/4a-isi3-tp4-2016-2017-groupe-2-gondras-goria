@@ -12,7 +12,6 @@ import java.util.Random;
  */
 public class RandomAgent implements Runnable {
     private final static int INITIAL_TIME_SLEEP = 16;
-    private final static int DIR_VARIATION = 30;
 
     private Model model;
     private Turtle turtle;
@@ -26,12 +25,11 @@ public class RandomAgent implements Runnable {
         while (true) {
             try {
                 Random rand = new Random();
-                int speed = rand.nextInt(5) + 1;
-                int oldDir = this.turtle.getDir();
-                int dir = oldDir + rand.nextInt(2*DIR_VARIATION) - DIR_VARIATION;
-                if(dir < 0) dir = 360 - dir;
-                turtle.setDir(dir);
-                model.forward(speed, this.turtle);
+                int speed = rand.nextInt(10) + 1;
+                turtle.setRandomDir();
+                while(!model.forward(speed, this.turtle)){
+                    turtle.setRandomDir();
+                }
                 model.notifyView();
                 Thread.sleep(INITIAL_TIME_SLEEP);
             } catch (InterruptedException e) {

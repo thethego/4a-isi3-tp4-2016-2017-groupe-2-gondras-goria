@@ -8,9 +8,13 @@ import java.util.Random;
  */
 public class FlockingAgent implements Runnable {
 
-    private final static int INITIAL_DIST_NEIGHBORHOOD = 100;
-    private final static int INITIAL_MINIMAL_DIST = 50;
-    private final static int INITIAL_TIME_SLEEP = 100;
+    private final static int INITIAL_DIST_NEIGHBORHOOD = 200;
+    private final static int INITIAL_MINIMAL_DIST = 40;
+    private final static int INITIAL_TIME_SLEEP = 50;
+    private final static double WEIGHT_COHESION = 0.8;
+    private final static double WEIGHT_SEPARATION = 1d;
+    private final static double WEIGHT_ALIGN = 0.05;
+    private final static double WEIGHT_CURRENT = 0.8;
 
     private Model model;
     private Turtle turtle;
@@ -41,48 +45,48 @@ public class FlockingAgent implements Runnable {
     }
 
     private void doRandomAction(){
-        Vector v = Vector.getRandomVector(dimension);
-        turtle.setDir(v.getAngle());
-        model.forward(v.getDist(), this.turtle);
+        Vector action = Vector.getRandomVector(dimension,turtle);
+        turtle.setDir(action.getAngle());
+        while(!model.forward(action.getDist(), this.turtle)){
+            action.addAngle(5);
+            turtle.setDir(action.getAngle());
+        }
     }
 
     private void doFlockingAction(ArrayList<Turtle> neighbors){
         Vector action = getFlockingVector(neighbors);
         turtle.setDir(action.getAngle());
-        model.forward(action.getDist(), this.turtle);
+        while(!model.forward(action.getDist(), this.turtle)){
+            action.addAngle(10);
+            turtle.setDir(action.getAngle());
+        }
     }
 
     private Vector getCohesion(ArrayList<Turtle> neighbors){
         if(neighbors.size() > 0){
-            int meanSpeed = 0;
             int meanDir = 0;
             for(Turtle t : neighbors){
-                meanSpeed += t.getSpeed();
                 meanDir += t.getDir();
             }
-            meanSpeed /= neighbors.size();
             meanDir /= neighbors.size();
-             return new Vector(meanSpeed,meanDir,dimension);
+             return new Vector(100*WEIGHT_COHESION,meanDir,dimension);
         } else {
-            return Vector.getRandomVector(dimension);
+            return Vector.getRandomVector(dimension,turtle);
         }
     }
 
     private Vector getAlignment(ArrayList<Turtle> neighbors){
         if(neighbors.size() > 0){
-            int meanSpeed = 0;
             int meanDir = 0;
             Vector v;
             for(Turtle t : neighbors){
                 v = new Vector(turtle.getX(),turtle.getY(),t.getX(),t.getY(),dimension);
                 meanDir += v.getAngle();
-                meanSpeed += v.getDist();
             }
             meanDir /= neighbors.size();
-            meanSpeed /= neighbors.size();
-            return new Vector(meanSpeed,meanDir,dimension);
+            return new Vector(100*WEIGHT_ALIGN,meanDir,dimension);
         } else {
-            return Vector.getRandomVector(dimension);
+            return Vector.getRandomVector(dimension,turtle);
         }
     }
 
@@ -91,43 +95,49 @@ public class FlockingAgent implements Runnable {
 
         if(toCloseNeighbors.size() > 0){
             Vector v;
-            int meanSpeed = 0;
             int meanDir = 0;
             for(Turtle t : toCloseNeighbors){
                 v = new Vector(turtle.getX(),turtle.getY(),t.getX(),t.getY(),dimension);
-                v.inverseAngle();
-                v.setDist(INITIAL_MINIMAL_DIST - v.getDist());
+                if(v.getDist() == 0){
+                    Random rand = new Random();
+                    v.setAngle(rand.nextInt(360));
+                } else {
+                    v.inverseAngle();
+                }
+                v.setDist((INITIAL_MINIMAL_DIST - v.getDist()));
                 meanDir += v.getAngle();
-                meanSpeed += v.getDist();
             }
             meanDir /= toCloseNeighbors.size();
-            meanSpeed /= toCloseNeighbors.size();
-            return new Vector(meanSpeed,meanDir,dimension);
+            return new Vector(100*WEIGHT_SEPARATION,meanDir,dimension);
         } else {
-            return Vector.getRandomVector(dimension);
+            return new Vector(0,0,dimension);
         }
     }
 
     private Vector getFlockingVector(ArrayList<Turtle> neighbors){
-        ArrayList<Double> coefs = new ArrayList<>();
         Vector separation = getSeparation();
         Vector alignment = getAlignment(neighbors);
         Vector cohesion = getCohesion(neighbors);
-        if(separation.getDist()>0){
-            coefs.add(0.5);
-            coefs.add(0.3);
-            coefs.add(0.2);
-        } else {
-            coefs.add(0.0);
-            coefs.add(0.9);
-            coefs.add(0.1);
-        }
-        int newX = (int) ((float) separation.getX(turtle.getX())*coefs.get(0)
-                + (float) alignment.getX(turtle.getX())*coefs.get(1)
-                + (float) cohesion.getX(turtle.getX())*coefs.get(2));
-        int newY = (int) ((float) separation.getY(turtle.getY())*coefs.get(0)
-                + (float) alignment.getY(turtle.getY())*coefs.get(1)
-                + (float) cohesion.getY(turtle.getY())*coefs.get(2));
-        return new Vector(turtle.getX(),turtle.getY(),newX,newY,dimension);
+        Vector current = new Vector(100*WEIGHT_CURRENT,turtle.getDir(),dimension);
+
+        //Calculating speed
+        double dist = ( separation.getDist()
+                +alignment.getDist()
+                +cohesion.getDist()
+                +current.getDist()) / 40;
+
+        //Calculating direction
+        double totalWeight = (separation.getDist() + alignment.getDist() + cohesion.getDist() +current.getDist())/100;
+        double meanX = (separation.getXWithoutDimension(turtle.getX())*WEIGHT_SEPARATION/totalWeight +
+                alignment.getXWithoutDimension(turtle.getX())*WEIGHT_ALIGN/totalWeight +
+                cohesion.getXWithoutDimension(turtle.getX())*WEIGHT_COHESION/totalWeight +
+                current.getXWithoutDimension(turtle.getX())*WEIGHT_CURRENT/totalWeight);
+        double meanY = (separation.getYWithoutDimension(turtle.getX())*WEIGHT_SEPARATION/totalWeight +
+                alignment.getYWithoutDimension(turtle.getX())*WEIGHT_ALIGN/totalWeight +
+                cohesion.getYWithoutDimension(turtle.getX())*WEIGHT_COHESION/totalWeight +
+                current.getYWithoutDimension(turtle.getX())*WEIGHT_CURRENT/totalWeight);
+        Vector flockingVector = new Vector(turtle.getX(),turtle.getY(),(int)meanX,(int)meanY,dimension);
+        flockingVector.setDist(dist);
+        return flockingVector;
     }
 }

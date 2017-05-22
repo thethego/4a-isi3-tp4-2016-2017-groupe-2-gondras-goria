@@ -9,14 +9,14 @@ import java.util.Random;
 public class Vector {
     public static final double ratioDegRad = 0.0174533; // ratio radians/degres
 
-    int dist;
-    int angle;
+    private double dist;
+    private double angle;
 
     //To handle toroidal environment
-    int width;
-    int height;
+    private int width;
+    private int height;
 
-    public Vector(int dist, int angle, int[] dimension) {
+    public Vector(double dist, double angle, int[] dimension) {
         this.dist = dist;
         this.angle = angle;
         this.width = dimension[0];
@@ -27,10 +27,10 @@ public class Vector {
         this.width = dimension[0];
         this.height = dimension[1];
 
-        ArrayList<int[]> vectors = new ArrayList<>();
-        int [] values;
-        int minDist = Integer.MAX_VALUE;
-        int currentAngle = 0;
+        ArrayList<double[]> vectors = new ArrayList<>();
+        double[] values;
+        double minDist = Double.MAX_VALUE;
+        double currentAngle = 0;
 
         //for the toroidal environment
         //we search the best way to go to another point
@@ -52,7 +52,7 @@ public class Vector {
         vectors.add(values);
         values = getAll(x1,y1,x2-width,y2);
         vectors.add(values);
-        for(int[] value : vectors){
+        for(double[] value : vectors){
             if(value[0] < minDist){
                 minDist = value[0];
                 currentAngle = value[1];
@@ -63,20 +63,29 @@ public class Vector {
         this.angle = currentAngle;
     }
 
-    public int getDist() {
+    public double getDist() {
         return dist;
     }
 
-    public int getAngle() {
+    public double getAngle() {
         return angle;
     }
 
     public int getX(int x){
-        return (int) (Math.round(x+dist*Math.cos(ratioDegRad*angle)))%width;
+        int newX = (int) (Math.round(x+dist*Math.cos(ratioDegRad*angle)))%width;
+        if(newX < 0){
+            newX = width - newX;
+        }
+        return newX;
+
     }
 
     public int getY(int y){
-        return (int) (Math.round(y+dist*Math.sin(ratioDegRad*angle)))%height;
+        int newY = (int) (Math.round(y+dist*Math.sin(ratioDegRad*angle)))%height;
+        if(newY < 0){
+            newY = height - newY;
+        }
+        return newY;
     }
 
     public int getXWithoutDimension(int x){
@@ -87,30 +96,37 @@ public class Vector {
         return (int) (Math.round(y+dist*Math.sin(ratioDegRad*angle)));
     }
 
-    public void setDist(int dist) {
+    public void setDist(double dist) {
         this.dist = dist;
     }
 
+    public void setAngle(double angle) {
+        angle %= 360;
+        if(angle < 0) angle = 360 + angle;
+        this.angle = angle;
+    }
+
+    public void addAngle(int newAngle){
+        angle = (angle + newAngle) % 360;
+    }
+
     public void inverseAngle(){
-        angle = (angle + 180) % 360;
+        addAngle(180);
     }
 
-    public int getDist(int x1, int y1, int x2, int y2){
-        return (int) Math.round(Math.sqrt(Math.pow(x1 - x2,2)+Math.pow(y1 - y2,2)));
+    public double getDist(int x1, int y1, int x2, int y2){
+        return Math.round(Math.sqrt(Math.pow(x1 - x2,2)+Math.pow(y1 - y2,2)));
     }
 
-    public int getAngle(int x1, int y1, int x2, int y2){
+    public double getAngle(int x1, int y1, int x2, int y2){
         return getAll(x1,y1,x2,y2)[1];
     }
 
-    public int[] getAll(int x1, int y1, int x2, int y2){
-        int[] ret = new int[2];
+    public double[] getAll(int x1, int y1, int x2, int y2){
+        double[] ret = new double[2];
         ret[0] = getDist(x1, y1, x2, y2);
         if(ret[0] > 0){
-            ret[1] = (int) Math.round(Math.toDegrees(Math.acos((float) (x2-x1)/ret[0])));
-            if(y2 < y1){
-                ret[1] *= -1;
-            }
+            ret[1] = Math.round(Math.toDegrees(Math.acos((float) (x2-x1)/ret[0])));
         } else {
             ret[1] = 0;
         }
@@ -122,5 +138,10 @@ public class Vector {
         int dist = rand.nextInt(100) + 1;
         int angle = rand.nextInt(360);
         return  new Vector(dist,angle,dimension);
+    }
+
+    public static Vector getRandomVector(int[] dimension, Turtle turtle){
+        double angle = turtle.getRandomDir();
+        return  new Vector(10,angle,dimension);
     }
 }
