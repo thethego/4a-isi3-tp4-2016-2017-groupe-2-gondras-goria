@@ -107,7 +107,7 @@ public class Vector {
     }
 
     public void addAngle(int newAngle){
-        angle = (angle + newAngle) % 360;
+        setAngle((angle + newAngle));
     }
 
     public void inverseAngle(){
@@ -115,7 +115,7 @@ public class Vector {
     }
 
     public double getDist(int x1, int y1, int x2, int y2){
-        return Math.round(Math.sqrt(Math.pow(x1 - x2,2)+Math.pow(y1 - y2,2)));
+        return Math.sqrt(Math.pow(x1 - x2,2)+Math.pow(y1 - y2,2));
     }
 
     public double getAngle(int x1, int y1, int x2, int y2){
@@ -126,7 +126,7 @@ public class Vector {
         double[] ret = new double[2];
         ret[0] = getDist(x1, y1, x2, y2);
         if(ret[0] > 0){
-            ret[1] = Math.round(Math.toDegrees(Math.acos((float) (x2-x1)/ret[0])));
+            ret[1] = Math.toDegrees(Math.acos((float) (x2-x1)/ret[0]));
         } else {
             ret[1] = 0;
         }
