@@ -80,7 +80,7 @@ public class Model  extends Observable {
     public synchronized boolean forward(double dist, Turtle turtle) {
         Vector vect = new Vector(dist, turtle.getDir(), new int[]{this.width, this.height});
         Point startPoint = new Point(turtle.getX(), turtle.getY());
-        Point endPoint = new Point(vect.getX(startPoint.getX()), vect.getY(startPoint.getY()));
+        Point endPoint = new Point((int)Math.round(vect.getX(startPoint.getX())), (int)Math.round(vect.getY(startPoint.getY())));
         Boolean isInObstacle = false;
 
         for (Obstacle o : this.obstacles) {

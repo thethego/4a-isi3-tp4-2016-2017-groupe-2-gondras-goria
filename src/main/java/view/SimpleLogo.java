@@ -20,15 +20,6 @@ public class SimpleLogo extends JFrame implements ActionListener {
     private JTextField inputValue;
     private Controller controller;
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable(){
-            public void run(){
-
-                SimpleLogo fenetre = new SimpleLogo();
-                fenetre.setVisible(true);
-            }
-        });
-    }
 
     public SimpleLogo() {
         super("un logo tout simple");

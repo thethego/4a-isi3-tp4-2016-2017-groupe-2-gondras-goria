@@ -44,7 +44,7 @@ public class Turtle{
         dir = rand.nextInt(360)+1;
         speed = rand.nextInt(9)+1;
         color = 0;
-        visible = true;
+        visible = false;
         segments.clear();
     }
 
@@ -63,8 +63,8 @@ public class Turtle{
         int[] dimension = {width, height};
         Vector v = new Vector(dist, dir, dimension);
         if(isVisible()) {
-            int realX = v.getXWithoutDimension(x);
-            int realY = v.getYWithoutDimension(y);
+            int realX = (int)v.getXWithoutDimension(x);
+            int realY = (int)v.getYWithoutDimension(y);
 
             //Toroidal environment, when we arrive on a side, we go on the other side
             int endX = realX;
@@ -112,7 +112,7 @@ public class Turtle{
                 forward(dist, width, height);
             }
         } else {
-            setPosition(v.getX(x),v.getY(y));
+            setPosition((int)Math.round(v.getX(x)),(int)Math.round(v.getY(y)));
         }
     }
 
