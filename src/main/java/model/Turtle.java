@@ -44,7 +44,7 @@ public class Turtle{
         dir = rand.nextInt(360)+1;
         speed = rand.nextInt(9)+1;
         color = 0;
-        visible = true;
+        visible = false;
         segments.clear();
     }
 

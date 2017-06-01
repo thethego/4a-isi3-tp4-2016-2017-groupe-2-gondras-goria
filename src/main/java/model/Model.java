@@ -26,7 +26,7 @@ public class Model  extends Observable {
         this.addObstacleRectangle(new Point(500, 10), 80, 70);
         this.addObstacleCircle(new Point(200, 300), 40);
         this.addObstacleRectangle(new Point(600, 300), 70, 40);
-        this.addTurtles(100);
+        this.addTurtles(50);
     }
 
     public ArrayList<Obstacle> getObstacles() {
@@ -187,6 +187,42 @@ public class Model  extends Observable {
             }
         }
         return neighbors;
+    }
+
+    public List<Turtle> getNeighbors(Turtle turtle, int dist, int angle){
+        int[] dimension = {this.getWidth(), this.getHeight()};
+        ArrayList<Turtle> neighbors = new ArrayList<>();
+        Vector vector;
+        for(Turtle t : turtles){
+            if(t != turtle){
+                vector = new Vector((turtle.getX()),
+                        turtle.getY(),
+                        t.getX(),
+                        t.getY(),
+                        dimension);
+                if(vector.getDist()<dist){
+                    if(canSee(turtle.getDir(), vector.getAngle(), angle)) neighbors.add(t);
+                }
+            }
+        }
+        return neighbors;
+    }
+
+    public boolean canSee(double angleTurtle, double angleVoisin, int angle){
+        double angleMax = angleTurtle + angle/2;
+        double angleMin = angleTurtle - angle/2;
+        double angleFix;
+
+        if(angleMax > 360){
+            angleFix = angleMax - 360;
+            return (angleVoisin >= angleMin || angleVoisin <= angleFix);
+        }
+        if(angleMin < 0){
+            angleFix = angleMin + 360;
+            return (angleVoisin <= angleMax || angleVoisin >= angleFix);
+        }
+        else
+            return (angleVoisin <= angleMax && angleVoisin >= angleMin);
     }
 
     public void notifyView(Object arg){
