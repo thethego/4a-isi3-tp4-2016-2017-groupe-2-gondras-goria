@@ -9,6 +9,7 @@ import java.util.Random;
 public class FlockingAgent implements Runnable {
 
     private final static int INITIAL_DIST_NEIGHBORHOOD = 200;
+    private final static int INITIAL_ANGLE_NEIGHBORHOOD = 90;
     private final static int INITIAL_MINIMAL_DIST = 10;
     private final static int INITIAL_TIME_SLEEP = 50;
     private final static int INITIAL_DIST = 10;
@@ -31,7 +32,7 @@ public class FlockingAgent implements Runnable {
     public void run() {
         while (true) {
             try {
-                ArrayList<Turtle> neighbors = (ArrayList<Turtle>) model.getNeighbors(turtle,INITIAL_DIST_NEIGHBORHOOD);
+                ArrayList<Turtle> neighbors = (ArrayList<Turtle>) model.getNeighbors(turtle,INITIAL_DIST_NEIGHBORHOOD, INITIAL_ANGLE_NEIGHBORHOOD);
                 doFlockingAction(neighbors);
                 model.notifyView();
                 Thread.sleep(INITIAL_TIME_SLEEP);
@@ -92,7 +93,7 @@ public class FlockingAgent implements Runnable {
     }
 
     private Vector getSeparation(){
-        ArrayList<Turtle> toCloseNeighbors = (ArrayList<Turtle>) model.getNeighbors(turtle,INITIAL_MINIMAL_DIST);
+        ArrayList<Turtle> toCloseNeighbors = (ArrayList<Turtle>) model.getNeighbors(turtle,INITIAL_MINIMAL_DIST, INITIAL_ANGLE_NEIGHBORHOOD);
 
         if(toCloseNeighbors.size() > 0){
             Vector v;

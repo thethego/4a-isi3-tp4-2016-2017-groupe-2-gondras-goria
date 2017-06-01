@@ -13,8 +13,8 @@ import java.awt.event.*;
 public class SimpleLogo extends JFrame implements ActionListener {
     public static final Dimension VGAP = new Dimension(1,5);
     public static final Dimension HGAP = new Dimension(5,1);
-    public final int width = 700;
-    public final int height = 400;
+    public final int width = 1024;
+    public final int height = 600;
 
     private DrawSheet sheet;
     private JTextField inputValue;
