@@ -78,3 +78,19 @@ Cet agent créé trois vecteurs correspondant chacun à un comportement (cohési
 puis les additionne (avec des coefficients) pour obtenir un mouvement.
 Il génère un mouvement aléatoire sinon.
 
+## Projet
+
+### UML
+Avant de commencer voici un UML mis a jour de notre projet :
+
+![final UML](images/diagramProject.png)
+
+### Inertie
+
+### Objectif
+
+### Couleurs
+
+### Obstacles
+
+### Champ de vision

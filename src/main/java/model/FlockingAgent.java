@@ -14,7 +14,7 @@ public class FlockingAgent implements Runnable {
     private final static int INITIAL_DIST = 10;
     private final static double WEIGHT_COHESION = 0.2;
     private final static double WEIGHT_SEPARATION = 2;
-    private final static double WEIGHT_ALIGN = 1;
+    private final static double WEIGHT_ALIGN = 1.5;
     private final static double WEIGHT_CURRENT = 1;
     private final static double WEIGHT_OBJECTIVE = 0.5;
     private static int OBJECTIVE_X = 100;
