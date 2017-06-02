@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by hagoterio on 26/04/17.
  */
 public class Model  extends Observable {
-    private final int INITIAL_NB_TURTLE = 40;
+    private final int INITIAL_NB_TURTLE = 100;
 
     private Turtle currentTurtle;
     private CopyOnWriteArrayList<Turtle> turtles;
