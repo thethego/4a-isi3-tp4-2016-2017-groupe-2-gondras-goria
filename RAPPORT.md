@@ -91,6 +91,7 @@ La classe model.Model est singleton puisqu'elle ne doit être instancié qu'une 
 Nous avons ajouté de l'inertie aux tortues en ajoutant un vecteur correspondant à la vitesse
 et à la direction actuelle de la tortue aux vecteurs du flocking.
 Cette fonctionnalité permet de fluidifier les déplacement de la tortue en empêchant les mouvements trop brusques.
+Nous avons donc légèrement modifié le comportement de flocking, quand la tortue n'as pas de voisin elle peut maintenant suivre ce vecteur (elle continuera alors à avancer dans la même direction) plutôt que de générer un vecteur aléatoire.
 
 ### Objectif
 De le même manière que pour l'inertie nous avons ajouté un vecteur "objectif".
@@ -113,7 +114,7 @@ Afin de faciliter cet affichage nous avons ajouté des boutons permettant de lev
 
 ### Obstacles
 Nous avons ajoutés des obstacles aux tortues.
-Ces obstacles peuvent prendre la forme de cercles ou de rectangles, mais d'autres formes pouront êtres ajoutées dans le code.
+Ces obstacles peuvent prendre la forme de cercles ou de rectangles, mais d'autres formes pouront êtres ajoutées facilement ultérieurement.
 
 Les tortues ne pourront pas passer à travers les obstacles et sont obligée de le contourner.
 
@@ -127,4 +128,4 @@ et si l'angle entre le vecteur de la direction de la tortue et ce vecteur est in
 alors la tortue voit sa voisine.
 
 Ce champ de vision utilisant notre class Vecteur, il prend en considération l'environnement toroidal,
-ce qui leurs permet de na pas se perdrent quand elles arrivent aux bords.
+ce qui leurs permet de na pas se perdrent quand elles arrivent aux bords de la fenêtre.
