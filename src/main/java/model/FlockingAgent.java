@@ -14,10 +14,13 @@ public class FlockingAgent implements Runnable {
     private final static int INITIAL_TIME_SLEEP = 50;
     private final static int INITIAL_DIST = 10;
     private final static double WEIGHT_COHESION = 0.2;
-    private final static double WEIGHT_SEPARATION = 1;
-    private final static double WEIGHT_ALIGN = 2;
+    private final static double WEIGHT_SEPARATION = 2;
+    private final static double WEIGHT_ALIGN = 1;
     private final static double WEIGHT_CURRENT = 1;
-    private final static double WEIGHT_OBJECTIVE = 0d;
+    private final static double WEIGHT_OBJECTIVE = 0.5;
+    private static int OBJECTIVE_X = 100;
+    private static int OBJECTIVE_Y = 100;
+    private static boolean OBJECTIVE = false;
 
     private Model model;
     private Turtle turtle;
@@ -122,24 +125,39 @@ public class FlockingAgent implements Runnable {
         Vector cohesion = getCohesion(neighbors);
         Vector current = new Vector(100,turtle.getDir(),dimension);
         current.setDist(WEIGHT_CURRENT);
-        Vector objective = new Vector(turtle.getX(),turtle.getY(),100,100,dimension);
+        Vector objective;
+        if(OBJECTIVE){
+            objective = new Vector(turtle.getX(),turtle.getY(),OBJECTIVE_X,OBJECTIVE_Y,dimension);
+        } else {
+            objective = new Vector(0,0,dimension);
+        }
         objective.setDist(WEIGHT_OBJECTIVE);
 
         //Calculating direction
         double meanX = (separation.getX(turtle.getX()) +
                 alignment.getX(turtle.getX()) +
                 cohesion.getX(turtle.getX()) +
-//                objective.getXWithoutDimension(turtle.getX()) +
+                objective.getXWithoutDimension(turtle.getX()) +
                 current.getX(turtle.getX()));
         double meanY = (separation.getY(turtle.getY()) +
                 alignment.getY(turtle.getY()) +
                 cohesion.getY(turtle.getY()) +
-//                objective.getYWithoutDimension(turtle.getY()) +
+                objective.getYWithoutDimension(turtle.getY()) +
                 current.getY(turtle.getY()));
-        meanX /= 4;
-        meanY /= 4;
+        meanX /= 5;
+        meanY /= 5;
         Vector flockingVector = new Vector(turtle.getX(),turtle.getY(),meanX,meanY,dimension);
         flockingVector.setDist(INITIAL_DIST);
         return flockingVector;
+    }
+
+    public static void setObjective(int objectiveX, int objectiveY) {
+        OBJECTIVE_X = objectiveX;
+        OBJECTIVE_Y = objectiveY;
+        OBJECTIVE = true;
+    }
+
+    public static void disableObjective(){
+        OBJECTIVE = false;
     }
 }

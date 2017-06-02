@@ -97,7 +97,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 JComboBox cb = (JComboBox)e.getSource();
                 int n = cb.getSelectedIndex();
-                controller.setColor(n);
+                controller.handleAction("setColor",n+"");
             }
         });
 
@@ -151,8 +151,25 @@ public class SimpleLogo extends JFrame implements ActionListener {
         this.sheet.setSize(new Dimension(width,height));
         this.sheet.setPreferredSize(new Dimension(width,height));
         this.sheet.addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
-                controller.changeTurtle(e.getX(),e.getY());
+                controller.handleAction("changeTurtle",e.getX()+","+e.getY());
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                controller.handleAction("mouseMoved",e.getX()+","+e.getY());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                controller.handleAction("disableObjective",null);
+            }
+        });
+        this.sheet.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                controller.handleAction("mouseMoved",e.getX()+","+e.getY());
             }
         });
 

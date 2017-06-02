@@ -28,7 +28,17 @@ public class Model  extends Observable {
         this.addObstacleRectangle(new Point(500, 10), 80, 70);
         this.addObstacleCircle(new Point(200, 300), 40);
         this.addObstacleRectangle(new Point(600, 300), 70, 40);
-        this.addTurtles(INITIAL_NB_TURTLE);    }
+
+        /* add diferent color turtles*/
+        this.setColor(0);
+        this.addTurtles(INITIAL_NB_TURTLE/4);
+        this.setColor(1);
+        this.addTurtles(INITIAL_NB_TURTLE/4);
+        this.setColor(4);
+        this.addTurtles(INITIAL_NB_TURTLE/4);
+        this.setColor(5);
+        this.addTurtles(INITIAL_NB_TURTLE/4);
+    }
 
     public ArrayList<Obstacle> getObstacles() {
         return obstacles;
@@ -130,7 +140,8 @@ public class Model  extends Observable {
 
     public void setColor(int color){
         this.color = color;
-        currentTurtle.setColor(color);
+        if(currentTurtle != null)
+            currentTurtle.setColor(color);
     }
 
     public synchronized void reset(){
@@ -196,13 +207,15 @@ public class Model  extends Observable {
         Vector vector;
         for(Turtle t : turtles){
             if(t != turtle){
-                vector = new Vector((turtle.getX()),
-                        turtle.getY(),
-                        t.getX(),
-                        t.getY(),
-                        dimension);
-                if(vector.getDist()<dist){
-                    if(canSee(turtle.getDir(), vector.getAngle(), angle)) neighbors.add(t);
+                if(t.getColor() == turtle.getColor()) {
+                    vector = new Vector((turtle.getX()),
+                            turtle.getY(),
+                            t.getX(),
+                            t.getY(),
+                            dimension);
+                    if (vector.getDist() < dist) {
+                        if (canSee(turtle.getDir(), vector.getAngle(), angle)) neighbors.add(t);
+                    }
                 }
             }
         }
@@ -224,6 +237,14 @@ public class Model  extends Observable {
         }
         else
             return (angleVoisin <= angleMax && angleVoisin >= angleMin);
+    }
+
+    public void mouseMoved(int X, int Y){
+        FlockingAgent.setObjective(X,Y);
+    }
+
+    public void disableObjective(){
+        FlockingAgent.disableObjective();
     }
 
     public void notifyView(Object arg){

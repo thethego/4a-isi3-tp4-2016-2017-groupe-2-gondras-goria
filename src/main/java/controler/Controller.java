@@ -52,59 +52,97 @@ public class Controller {
             this.spiral();
         else if (c.equals("Effacer"))
             this.reset();
+        else if (c.equals("setColor")) {
+            try {
+                this.setColor(Integer.parseInt(inputValue));
+            } catch (NumberFormatException ex) {
+                System.err.println("ce n'est pas un nombre : " + inputValue);
+            }
+        } else if (c.equals("changeTurtle")) {
+            try {
+                String[] splitted = inputValue.split(",");
+                if(splitted.length != 2){
+                    System.err.println("ce n'est pas des coordonnés : " + inputValue);
+                } else {
+                    this.changeTurtle(Integer.parseInt(splitted[0]),Integer.parseInt(splitted[1]));
+                }
+            } catch (NumberFormatException ex) {
+                System.err.println("ce n'est pas un nombre : " + inputValue);
+            }
+        } else if (c.equals("mouseMoved")) {
+            try {
+                String[] splitted = inputValue.split(",");
+                if(splitted.length != 2){
+                    System.err.println("ce n'est pas des coordonnés : " + inputValue);
+                } else {
+                    this.mouseMoved(Integer.parseInt(splitted[0]),Integer.parseInt(splitted[1]));
+                }
+            } catch (NumberFormatException ex) {
+                System.err.println("ce n'est pas un nombre : " + inputValue);
+            }
+        } else if (c.equals("disableObjective"))
+            disableObjective();
         else if (c.equals("Quitter"))
             System.exit(0);
     }
 
-    public void moveForward(int inputValue){
+    private void moveForward(int inputValue){
         model.forward(inputValue);
     }
 
-    public void right(int inputValue){
+    private void right(int inputValue){
         model.right(inputValue);
     }
 
-    public void left(int inputValue){
+    private void left(int inputValue){
         model.left(inputValue);
     }
 
-    public void pencilUp(){
+    private void pencilUp(){
         model.pencilUp();
     }
 
-    public void pencilDown(){
+    private void pencilDown(){
         model.pencilDown();
     }
 
-    public void addTurtle(){
+    private void addTurtle(){
         model.addTurtle();
     }
 
-    public void square(){
+    private void square(){
         model.square();
     }
 
-    public void poly(){
+    private void poly(){
         model.poly(60,8);
     }
 
-    public void spiral(){
+    private void spiral(){
         model.spiral(50,40,6);
     }
 
-    public void reset(){
+    private void reset(){
         model.reset();
     }
 
-    public void setColor(int color){
+    private void setColor(int color){
         model.setColor(color);
     }
 
-    public void changeTurtle (int X, int Y){
+    private void changeTurtle (int X, int Y){
         model.setCurrentTurtle(X,Y);
     }
 
-    public void changeTurtle(Turtle turtle){
+    private void mouseMoved (int X, int Y) {
+        model.mouseMoved(X,Y);
+    }
+
+    private void disableObjective(){
+        model.disableObjective();
+    }
+
+    private void changeTurtle(Turtle turtle){
         model.setCurrentTurtle(turtle);
     }
 }
