@@ -103,5 +103,16 @@ Cela permet de créer plusieurs groupes distincts de tortues.
 Au lancement nous créons donc des tortues de quatres couleurs différentes.
 
 ### Obstacles
+Nous avons ajoutés des obstacles aux tortues.
+Ces obstacles peuvent prendre la forme de cercles ou de rectangles, mais d'autres formes pouront êtres ajoutées dans le code.
+
+Les tortues ne pourront pas passer à travers les obstacles et sont obligée de le contourner.
 
 ### Champ de vision
+Les tortues en mode flocking suivent les tortues qu'elles "voient".
+Elles ne peuvent donc pas voir, ni suivre les tortues qui se trouvent derière elles.
+Nous avons alors ajoutés un champ de vision aux tortues.
+
+Pour déterminer si une tortue peut en voir sa voisine, nous créons un vecteur entre les deux tortues,
+et si l'angle entre le vecteur de la direction de la tortue et ce vecteur est inferieur à son angle de champ de vision,
+alors la tortue voit sa voisine.
