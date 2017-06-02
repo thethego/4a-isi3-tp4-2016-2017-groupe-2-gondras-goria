@@ -82,6 +82,10 @@ public class Controller {
             }
         } else if (c.equals("disableObjective"))
             disableObjective();
+        else if (c.equals("Lever toutes"))
+            model.setAllInvisible();
+        else if (c.equals("Baisser toutes"))
+            model.setAllVisible();
         else if (c.equals("Quitter"))
             System.exit(0);
     }

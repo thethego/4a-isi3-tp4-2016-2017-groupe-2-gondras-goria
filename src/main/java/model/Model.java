@@ -234,6 +234,14 @@ public class Model  extends Observable {
         FlockingAgent.disableObjective();
     }
 
+    public void setAllVisible(){
+        turtles.forEach(Turtle::setVisible);
+    }
+
+    public void setAllInvisible(){
+        turtles.forEach(Turtle::setInvisible);
+    }
+
     public void notifyView(Object arg){
         setChanged();
         notifyObservers(arg);

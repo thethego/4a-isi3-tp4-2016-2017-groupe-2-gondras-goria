@@ -80,6 +80,8 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
         addButton(toolBar, "Lever", "Lever Crayon", null);
         addButton(toolBar, "Baisser", "Baisser Crayon", null);
+        addButton(toolBar, "Lever toutes", "Lever Crayon pour toutes les tortues", null);
+        addButton(toolBar, "Baisser toutes", "Baisser Crayon pour toutes les tortues", null);
         addButton(toolBar,"Ajouter","Ajouter une tortue",null);
 
         String[] colorStrings = {"noir", "bleu", "cyan","gris fonce","rouge",
