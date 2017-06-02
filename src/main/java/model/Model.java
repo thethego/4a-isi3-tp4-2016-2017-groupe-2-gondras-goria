@@ -38,7 +38,6 @@ public class Model  extends Observable {
         this.addTurtles(INITIAL_NB_TURTLE/4);
         this.setColor(5);
         this.addTurtles(INITIAL_NB_TURTLE/4);
-        this.setColor(0);
     }
 
     public ArrayList<Obstacle> getObstacles() {
