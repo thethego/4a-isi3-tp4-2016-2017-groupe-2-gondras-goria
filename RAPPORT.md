@@ -97,7 +97,7 @@ Nous avons donc légèrement modifié le comportement de flocking, quand la tort
 De le même manière que pour l'inertie nous avons ajouté un vecteur "objectif".
 Quand le souris est sur la fenêtre ce vecteur est orienté en direction du pointeur de la souris.
 Les tortues suivent donc la souris.
-Quand la souris sort de la fenêtre ce vecteur devient nul est les tortues reprennent une activité de flocking classique.
+Quand la souris sort de la fenêtre ce vecteur devient nul et les tortues reprennent une activité de flocking classique.
 Notre classe Vecteur prenant en comte l'environnement toroidale, le tortue arrive donc à trouver le plus court chemin pour arriver à l'objectif dans cet environnement particulier.
 
 ### Couleurs
