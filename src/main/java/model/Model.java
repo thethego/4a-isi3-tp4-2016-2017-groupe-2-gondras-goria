@@ -30,7 +30,7 @@ public class Model  extends Observable {
         this.addObstacleRectangle(new Point(600, 300), 70, 40);
 
         /* add diferent color turtles*/
-        this.setColor(0);
+        this.setColor(8);
         this.addTurtles(INITIAL_NB_TURTLE/4);
         this.setColor(1);
         this.addTurtles(INITIAL_NB_TURTLE/4);
@@ -193,29 +193,13 @@ public class Model  extends Observable {
                             t.getX(),
                             t.getY());
                     if (vector.getDist() < dist) {
-                        if (canSee(turtle.getDir(), vector.getAngle(), angle)) neighbors.add(t);
+                        if(Math.abs(turtle.getDir() - vector.getAngle()) <= angle)
+                            neighbors.add(t);
                     }
                 }
             }
         }
         return neighbors;
-    }
-
-    public boolean canSee(double angleTurtle, double angleVoisin, int angle){
-        double angleMax = angleTurtle + angle/2;
-        double angleMin = angleTurtle - angle/2;
-        double angleFix;
-
-        if(angleMax > 360){
-            angleFix = angleMax - 360;
-            return (angleVoisin >= angleMin || angleVoisin <= angleFix);
-        }
-        if(angleMin < 0){
-            angleFix = angleMin + 360;
-            return (angleVoisin <= angleMax || angleVoisin >= angleFix);
-        }
-        else
-            return (angleVoisin <= angleMax && angleVoisin >= angleMin);
     }
 
     public void mouseMoved(int X, int Y){
