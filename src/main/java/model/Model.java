@@ -215,7 +215,7 @@ public class Model  extends Observable {
     }
 
     public void setAllInvisible(){
-        turtles.forEach(Turtle::setInvisible);
+        turtles.forEach(Turtle::setInvisibleAndClear);
     }
 
     public void notifyView(Object arg){

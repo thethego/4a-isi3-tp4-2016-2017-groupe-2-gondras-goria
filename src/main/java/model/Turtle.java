@@ -136,8 +136,12 @@ public class Turtle{
 
     public void setInvisible() {
         visible = false;
+    }
+    public void setInvisibleAndClear() {
+        setInvisible();
         segments.clear();
     }
+
 
     public void color(int n) {
         color = n % 12;
