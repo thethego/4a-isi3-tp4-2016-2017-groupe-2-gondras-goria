@@ -9,11 +9,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Model  extends Observable {
     private final int INITIAL_NB_TURTLE = 100;
 
+    private static int mode;
+    private static int height,width;
+
     private Turtle currentTurtle;
     private CopyOnWriteArrayList<Turtle> turtles;
-    private static int height,width;
     private int color;
-    private int mode;
     private ArrayList<Obstacle> obstacles;
 
     public Model(int width, int height, int mode) {
@@ -22,22 +23,28 @@ public class Model  extends Observable {
         this.color = 0;
         Model.width = width;
         Model.height = height;
-        this.mode = mode;
-        this.addObstacleRectangle(new Point(10, 50), 60, 40);
-        this.addObstacleCircle(new Point(200, 100), 70);
-        this.addObstacleRectangle(new Point(500, 10), 80, 70);
-        this.addObstacleCircle(new Point(200, 300), 40);
-        this.addObstacleRectangle(new Point(600, 300), 70, 40);
+        Model.mode = mode;
 
-        /* add diferent color turtles*/
-        this.setColor(8);
-        this.addTurtles(INITIAL_NB_TURTLE/4);
-        this.setColor(1);
-        this.addTurtles(INITIAL_NB_TURTLE/4);
-        this.setColor(4);
-        this.addTurtles(INITIAL_NB_TURTLE/4);
-        this.setColor(5);
-        this.addTurtles(INITIAL_NB_TURTLE/4);
+        if(mode != 1){
+            /*add obstacles*/
+            this.addObstacleRectangle(new Point(10, 50), 60, 40);
+            this.addObstacleCircle(new Point(200, 100), 70);
+            this.addObstacleRectangle(new Point(500, 10), 80, 70);
+            this.addObstacleCircle(new Point(200, 300), 40);
+            this.addObstacleRectangle(new Point(600, 300), 70, 40);
+
+            /* add diferent color turtles*/
+            this.setColor(8);
+            this.addTurtles(INITIAL_NB_TURTLE/4);
+            this.setColor(1);
+            this.addTurtles(INITIAL_NB_TURTLE/4);
+            this.setColor(4);
+            this.addTurtles(INITIAL_NB_TURTLE/4);
+            this.setColor(5);
+            this.addTurtles(INITIAL_NB_TURTLE/4);
+        } else {
+            this.addTurtle();
+        }
     }
 
     public ArrayList<Obstacle> getObstacles() {
@@ -227,5 +234,9 @@ public class Model  extends Observable {
 
     public void notifyView(){
         this.notifyView(null);
+    }
+
+    public static int getMode() {
+        return mode;
     }
 }

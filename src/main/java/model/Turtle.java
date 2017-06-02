@@ -41,9 +41,15 @@ public class Turtle{
         Random rand = new Random();
         x = 0;
         y = 0;
-        dir = rand.nextInt(360)+1;
-        speed = rand.nextInt(9)+1;
-        visible = false;
+        if(Model.getMode()==1){
+            dir = 270;
+            speed = 45;
+            visible = true;
+        } else {
+            dir = rand.nextInt(360)+1;
+            speed = rand.nextInt(9)+1;
+            visible = false;
+        }
         segments.clear();
     }
 
@@ -103,7 +109,7 @@ public class Turtle{
             seg.setColor(color);
 
             segments.add(seg);
-            if(segments.size() > 15){
+            if(Model.getMode() != 1 && segments.size() > 15){
                 segments.remove(0);
             }
             setPosition(newX, newY);

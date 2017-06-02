@@ -86,10 +86,21 @@ Avant de commencer voici un UML mis a jour de notre projet :
 ![final UML](images/diagramProject.png)
 
 ### Inertie
+Nous avons ajouté de l'inertie aux tortues en ajoutant un vecteur correspondant à la vitesse
+et à la direction actuelle de la tortue aux vecteurs du flocking.
+Cette fonctionnalité permet de fluidifier les déplacement de la tortue en empêchant les mouvements trop brusques.
 
 ### Objectif
+De le même manière que pour l'inertie nous avons ajouté un vecteur "objectif".
+Quand le souris est sur la fenêtre ce vecteur est orienté en direction du pointeur de la souris.
+Les tortues suivent donc la souris.
+Quand la souris sort de la fenêtre ce vecteur devient nul est les tortues reprennent une activité de flocking classique.
 
 ### Couleurs
+Nous avons fait en sorte que les tortues ne voient que les autres tortues de la même couleur.
+Cela permet de créer plusieurs groupes distincts de tortues.
+
+Au lancement nous créons donc des tortues de quatres couleurs différentes.
 
 ### Obstacles
 
