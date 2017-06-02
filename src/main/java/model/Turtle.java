@@ -59,9 +59,10 @@ public class Turtle{
         dir = newDir;
     }
 
-    public void forwardRec(double dist, int width, int height){
-        int[] dimension = {width, height};
-        Vector v = new Vector(dist, dir, dimension);
+    public void forwardRec(double dist){
+        int width = Model.getWidth();
+        int height = Model.getHeight();
+        Vector v = new Vector(dist, dir);
         if(isVisible()) {
             int realX = (int)v.getXWithoutDimension(x);
             int realY = (int)v.getYWithoutDimension(y);
@@ -109,16 +110,16 @@ public class Turtle{
             setPosition(newX, newY);
             if (endX != realX || endY != realY) {
                 dist = (int) Math.round(Math.sqrt(Math.pow(realX - endX, 2) + Math.pow(realY - endY, 2)));
-                forward(dist, width, height);
+                forward(dist);
             }
         } else {
             setPosition((int)Math.round(v.getX(x)),(int)Math.round(v.getY(y)));
         }
     }
 
-    public void forward(double dist, int width, int height) {
+    public void forward(double dist) {
         this.speed = dist;
-        forwardRec(dist,width,height);
+        forwardRec(dist);
 
     }
 
@@ -149,24 +150,24 @@ public class Turtle{
 
     /** some classical */
 
-    public void square(int width, int height) {
+    public void square() {
         for (int i=0;i<4;i++) {
-            forward(100,width,height);
+            forward(100);
             right(90);
         }
     }
 
-    public void poly(int n, int a, int width, int height) {
+    public void poly(int n, int a) {
         for (int j=0;j<a;j++) {
-            forward(n,width,height);
+            forward(n);
             right(360/a);
         }
     }
 
-    public void spiral(int n, int k, int a,int width, int height) {
+    public void spiral(int n, int k, int a) {
         for (int i = 0; i < k; i++) {
             color(color +1);
-            forward(n,width, height);
+            forward(n);
             right(360/a);
             n = n+1;
         }

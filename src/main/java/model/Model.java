@@ -11,7 +11,7 @@ public class Model  extends Observable {
 
     private Turtle currentTurtle;
     private CopyOnWriteArrayList<Turtle> turtles;
-    private int height,width;
+    private static int height,width;
     private int color;
     private int mode;
     private ArrayList<Obstacle> obstacles;
@@ -20,8 +20,8 @@ public class Model  extends Observable {
         this.turtles = new CopyOnWriteArrayList<>();
         this.obstacles = new ArrayList<>();
         this.color = 0;
-        this.width = width;
-        this.height = height;
+        Model.width = width;
+        Model.height = height;
         this.mode = mode;
         this.addObstacleRectangle(new Point(10, 50), 60, 40);
         this.addObstacleCircle(new Point(200, 100), 70);
@@ -88,7 +88,7 @@ public class Model  extends Observable {
     }
 
     public synchronized boolean forward(double dist, Turtle turtle) {
-        Vector vect = new Vector(dist, turtle.getDir(), new int[]{this.width, this.height});
+        Vector vect = new Vector(dist, turtle.getDir());
         Point startPoint = new Point(turtle.getX(), turtle.getY());
         Point endPoint = new Point((int)Math.round(vect.getX(startPoint.getX())), (int)Math.round(vect.getY(startPoint.getY())));
         Boolean isInObstacle = false;
@@ -97,7 +97,7 @@ public class Model  extends Observable {
             isInObstacle = (isInObstacle || o.isInObstacle(endPoint));
         }
         if(!isInObstacle){
-            turtle.forward(dist,width,height);
+            turtle.forward(dist);
             notifyView();
         }
         return !isInObstacle;
@@ -124,17 +124,17 @@ public class Model  extends Observable {
     }
 
     public synchronized void square() {
-        this.currentTurtle.square(width,height);
+        this.currentTurtle.square();
         notifyView();
     }
 
     public synchronized void poly(int n, int a) {
-        this.currentTurtle.poly(n,a,width,height);
+        this.currentTurtle.poly(n,a);
         notifyView();
     }
 
     public synchronized void spiral(int n, int k, int a) {
-        this.currentTurtle.spiral(n,k,a,width,height);
+        this.currentTurtle.spiral(n,k,a);
         notifyView();
     }
 
@@ -148,7 +148,7 @@ public class Model  extends Observable {
         for (Iterator it = turtles.iterator(); it.hasNext();) {
             Turtle t = (Turtle) it.next();
             t.reset();
-            t.setPosition((int)width/2,(int)height/2);
+            t.setPosition(width/2,height/2);
         }
         notifyView();
     }
@@ -170,11 +170,11 @@ public class Model  extends Observable {
         }
     }
 
-    public int getHeight() {
+    public static int getHeight() {
         return height;
     }
 
-    public int getWidth() {
+    public static int getWidth() {
         return width;
     }
 
@@ -182,27 +182,7 @@ public class Model  extends Observable {
         return turtles;
     }
 
-    public List<Turtle> getNeighbors(Turtle turtle, int dist){
-        int[] dimension = {this.getWidth(), this.getHeight()};
-        ArrayList<Turtle> neighbors = new ArrayList<>();
-        Vector vector;
-        for(Turtle t : turtles){
-            if(t != turtle){
-                vector = new Vector((turtle.getX()),
-                        turtle.getY(),
-                        t.getX(),
-                        t.getY(),
-                        dimension);
-                if(vector.getDist()<dist){
-                    neighbors.add(t);
-                }
-            }
-        }
-        return neighbors;
-    }
-
     public List<Turtle> getNeighbors(Turtle turtle, int dist, int angle){
-        int[] dimension = {this.getWidth(), this.getHeight()};
         ArrayList<Turtle> neighbors = new ArrayList<>();
         Vector vector;
         for(Turtle t : turtles){
@@ -211,8 +191,7 @@ public class Model  extends Observable {
                     vector = new Vector((turtle.getX()),
                             turtle.getY(),
                             t.getX(),
-                            t.getY(),
-                            dimension);
+                            t.getY());
                     if (vector.getDist() < dist) {
                         if (canSee(turtle.getDir(), vector.getAngle(), angle)) neighbors.add(t);
                     }
