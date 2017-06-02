@@ -105,7 +105,7 @@ Cela permet de créer plusieurs groupes distincts de tortues.
 
 Au lancement nous créons donc des tortues de quatres couleurs différentes.
 
-## Affichage des traces
+### Affichage des traces
 Nous avons ajouté la possibilité d'afficher les traces laissés par les tortues (qui correspondent aux 15 derniers segments tracés par une tortue).
 Cela permet un affiche élégant du déplacement des tortues sans surcharger la fenêtre.
 Afin de faciliter cet affichage nous avons ajouté des boutons permettant de lever et de baisser toutes les tortues en même temps
