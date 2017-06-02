@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by hagoterio on 26/04/17.
  */
 public class Model  extends Observable {
-    private final int INITIAL_NB_TURTLE = 2;
+    private final int INITIAL_NB_TURTLE = 100;
 
     private Turtle currentTurtle;
     private CopyOnWriteArrayList<Turtle> turtles;
@@ -29,18 +29,15 @@ public class Model  extends Observable {
         this.addObstacleCircle(new Point(200, 300), 40);
         this.addObstacleRectangle(new Point(600, 300), 70, 40);
 
-        this.setColor(8);
-        this.addTurtles(INITIAL_NB_TURTLE);
-
         /* add diferent color turtles*/
-//        this.setColor(0);
-//        this.addTurtles(INITIAL_NB_TURTLE/4);
-//        this.setColor(1);
-//        this.addTurtles(INITIAL_NB_TURTLE/4);
-//        this.setColor(4);
-//        this.addTurtles(INITIAL_NB_TURTLE/4);
-//        this.setColor(5);
-//        this.addTurtles(INITIAL_NB_TURTLE/4);
+        this.setColor(8);
+        this.addTurtles(INITIAL_NB_TURTLE/4);
+        this.setColor(1);
+        this.addTurtles(INITIAL_NB_TURTLE/4);
+        this.setColor(4);
+        this.addTurtles(INITIAL_NB_TURTLE/4);
+        this.setColor(5);
+        this.addTurtles(INITIAL_NB_TURTLE/4);
     }
 
     public ArrayList<Obstacle> getObstacles() {
