@@ -85,6 +85,8 @@ Avant de commencer voici un UML mis a jour de notre projet :
 
 ![final UML](images/diagramProject.png)
 
+La classe model.Model est singleton puisqu'elle ne doit être instancié qu'une seule fois.
+
 ### Inertie
 Nous avons ajouté de l'inertie aux tortues en ajoutant un vecteur correspondant à la vitesse
 et à la direction actuelle de la tortue aux vecteurs du flocking.
@@ -95,12 +97,19 @@ De le même manière que pour l'inertie nous avons ajouté un vecteur "objectif"
 Quand le souris est sur la fenêtre ce vecteur est orienté en direction du pointeur de la souris.
 Les tortues suivent donc la souris.
 Quand la souris sort de la fenêtre ce vecteur devient nul est les tortues reprennent une activité de flocking classique.
+Notre classe Vecteur prenant en comte l'environnement toroidale, le tortue arrive donc à trouver le plus court chemin pour arriver à l'objectif dans cet environnement particulier.
 
 ### Couleurs
 Nous avons fait en sorte que les tortues ne voient que les autres tortues de la même couleur.
 Cela permet de créer plusieurs groupes distincts de tortues.
 
 Au lancement nous créons donc des tortues de quatres couleurs différentes.
+
+## Affichage des traces
+Nous avons ajouté la possibilité d'afficher les traces laissés par les tortues (qui correspondent aux 15 derniers segments tracés par une tortue).
+Cela permet un affiche élégant du déplacement des tortues sans surcharger la fenêtre.
+Afin de faciliter cet affichage nous avons ajouté des boutons permettant de lever et de baisser toutes les tortues en même temps
+(Permettant d'activer ou de désactiver l'affichage des traces).
 
 ### Obstacles
 Nous avons ajoutés des obstacles aux tortues.
@@ -116,3 +125,6 @@ Nous avons alors ajoutés un champ de vision aux tortues.
 Pour déterminer si une tortue peut en voir sa voisine, nous créons un vecteur entre les deux tortues,
 et si l'angle entre le vecteur de la direction de la tortue et ce vecteur est inferieur à son angle de champ de vision,
 alors la tortue voit sa voisine.
+
+Ce champ de vision utilisant notre class Vecteur, il prend en considération l'environnement toroidal,
+ce qui leurs permet de na pas se perdrent quand elles arrivent aux bords.

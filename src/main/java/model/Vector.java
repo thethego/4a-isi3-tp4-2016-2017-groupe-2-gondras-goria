@@ -24,8 +24,8 @@ public class Vector {
         double minDist = Double.MAX_VALUE;
         double currentAngle = 0;
 
-        int width = Model.getWidth();
-        int height = Model.getHeight();
+        int width = Model.getInstance().getWidth();
+        int height = Model.getInstance().getHeight();
         //for the toroidal environment
         //we search the best way to go to another point
         values = getAll(x1,y1,x2,y2);
@@ -66,7 +66,7 @@ public class Vector {
     }
 
     public double getX(double x){
-        int width = Model.getWidth();
+        int width = Model.getInstance().getWidth();
         double newX = getXWithoutDimension(x)%width;
         if(newX < 0){
             newX += width;
@@ -76,7 +76,7 @@ public class Vector {
     }
 
     public double getY(double y){
-        int height = Model.getHeight();
+        int height = Model.getInstance().getHeight();
         double newY = getYWithoutDimension(y)%height;
         if(newY < 0){
             newY += height;

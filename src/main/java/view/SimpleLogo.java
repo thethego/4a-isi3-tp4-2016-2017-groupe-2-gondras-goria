@@ -11,10 +11,11 @@ import java.awt.event.*;
  * Created by theo on 12/04/17.
  */
 public class SimpleLogo extends JFrame implements ActionListener {
-    public static final Dimension VGAP = new Dimension(1,5);
-    public static final Dimension HGAP = new Dimension(5,1);
-    public final int width = 1024;
-    public final int height = 600;
+    private static final Dimension VGAP = new Dimension(1,5);
+    private static final Dimension HGAP = new Dimension(5,1);
+    private final int width = 1024;
+    private final int height = 600;
+    private final int nbTurtles = 100;
 
     private DrawSheet sheet;
     private JTextField inputValue;
@@ -179,7 +180,8 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
         // Creation du model
         Dimension size = sheet.getSize();
-        Model model = new Model(width,height,mode);
+        Model model = Model.getInstance();
+        Model.Initialize(width,height,mode,nbTurtles);
         model.addObserver(this.sheet);
         this.sheet.update(model, model.getObstacles());
         this.sheet.update(model, model.getTurtles());

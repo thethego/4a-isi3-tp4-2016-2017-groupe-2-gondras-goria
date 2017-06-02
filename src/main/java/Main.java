@@ -1,3 +1,4 @@
+import model.Model;
 import view.SimpleLogo;
 
 import javax.swing.*;
@@ -8,12 +9,9 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable(){
-            public void run(){
-
-                SimpleLogo fenetre = new SimpleLogo();
-                fenetre.setVisible(true);
-            }
+        SwingUtilities.invokeLater(() -> {
+            SimpleLogo window = new SimpleLogo();
+            window.setVisible(true);
         });
     }
 }

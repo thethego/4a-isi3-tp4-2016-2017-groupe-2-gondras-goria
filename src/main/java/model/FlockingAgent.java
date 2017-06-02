@@ -25,8 +25,8 @@ public class FlockingAgent implements Runnable {
     private Turtle turtle;
     private int[] dimension;
 
-    public FlockingAgent(Model model, Turtle turtle) {
-        this.model = model;
+    public FlockingAgent(Turtle turtle) {
+        this.model = Model.getInstance();
         this.turtle = turtle;
     }
 

@@ -41,7 +41,7 @@ public class Turtle{
         Random rand = new Random();
         x = 0;
         y = 0;
-        if(Model.getMode()==1){
+        if(Model.getInstance().getMode()==1){
             dir = 270;
             speed = 45;
             visible = true;
@@ -65,8 +65,8 @@ public class Turtle{
     }
 
     public void forwardRec(double dist){
-        int width = Model.getWidth();
-        int height = Model.getHeight();
+        int width = Model.getInstance().getWidth();
+        int height = Model.getInstance().getHeight();
         Vector v = new Vector(dist, dir);
         if(isVisible()) {
             int realX = (int)v.getXWithoutDimension(x);
@@ -109,7 +109,7 @@ public class Turtle{
             seg.setColor(color);
 
             segments.add(seg);
-            if(Model.getMode() != 1 && segments.size() > 15){
+            if(Model.getInstance().getMode() != 1 && segments.size() > 15){
                 segments.remove(0);
             }
             setPosition(newX, newY);

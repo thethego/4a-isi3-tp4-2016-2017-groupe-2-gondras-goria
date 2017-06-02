@@ -6,46 +6,18 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by hagoterio on 26/04/17.
  */
+/*This class is a singleton*/
 public class Model  extends Observable {
-    private final int INITIAL_NB_TURTLE = 100;
+    private final static Model INSTANCE = new Model();
 
-    private static int mode;
-    private static int height,width;
-
+    private int mode;
+    private int height,width;
     private Turtle currentTurtle;
     private CopyOnWriteArrayList<Turtle> turtles;
     private int color;
     private ArrayList<Obstacle> obstacles;
 
-    public Model(int width, int height, int mode) {
-        this.turtles = new CopyOnWriteArrayList<>();
-        this.obstacles = new ArrayList<>();
-        this.color = 0;
-        Model.width = width;
-        Model.height = height;
-        Model.mode = mode;
-
-        if(mode != 1){
-            /*add obstacles*/
-            this.addObstacleRectangle(new Point(10, 50), 60, 40);
-            this.addObstacleCircle(new Point(200, 100), 70);
-            this.addObstacleRectangle(new Point(500, 10), 80, 70);
-            this.addObstacleCircle(new Point(200, 300), 40);
-            this.addObstacleRectangle(new Point(600, 300), 70, 40);
-
-            /* add diferent color turtles*/
-            this.setColor(8);
-            this.addTurtles(INITIAL_NB_TURTLE/4);
-            this.setColor(1);
-            this.addTurtles(INITIAL_NB_TURTLE/4);
-            this.setColor(4);
-            this.addTurtles(INITIAL_NB_TURTLE/4);
-            this.setColor(5);
-            this.addTurtles(INITIAL_NB_TURTLE/4);
-        } else {
-            this.addTurtle();
-        }
-    }
+    private Model(){}
 
     public ArrayList<Obstacle> getObstacles() {
         return obstacles;
@@ -70,9 +42,9 @@ public class Model  extends Observable {
     public synchronized void addTurtle(){
         Turtle turtle = new Turtle( width/2,height/2);
         if(mode == 2){
-            new Thread(new RandomAgent(this, turtle)).start();
+            new Thread(new RandomAgent(turtle)).start();
         } else if(mode == 3) {
-            new Thread(new FlockingAgent(this, turtle)).start();
+            new Thread(new FlockingAgent(turtle)).start();
         }
         this.turtles.add(turtle);
         this.currentTurtle = turtle;
@@ -177,11 +149,11 @@ public class Model  extends Observable {
         }
     }
 
-    public static int getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public static int getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -236,7 +208,41 @@ public class Model  extends Observable {
         this.notifyView(null);
     }
 
-    public static int getMode() {
+    public int getMode() {
         return mode;
+    }
+
+    public static void Initialize(int width, int height, int mode, int nbTurtles) {
+        getInstance().turtles = new CopyOnWriteArrayList<>();
+        getInstance().obstacles = new ArrayList<>();
+        getInstance().color = 0;
+        getInstance().width = width;
+        getInstance().height = height;
+        getInstance().mode = mode;
+
+        if(mode != 1){
+            /*add obstacles*/
+            getInstance().addObstacleRectangle(new Point(10, 50), 60, 40);
+            getInstance().addObstacleCircle(new Point(200, 100), 70);
+            getInstance().addObstacleRectangle(new Point(500, 10), 80, 70);
+            getInstance().addObstacleCircle(new Point(200, 300), 40);
+            getInstance().addObstacleRectangle(new Point(600, 300), 70, 40);
+
+            /* add diferent color turtles*/
+            getInstance().setColor(8);
+            getInstance().addTurtles(nbTurtles/4);
+            getInstance().setColor(1);
+            getInstance().addTurtles(nbTurtles/4);
+            getInstance().setColor(4);
+            getInstance().addTurtles(nbTurtles/4);
+            getInstance().setColor(5);
+            getInstance().addTurtles(nbTurtles/4);
+        } else {
+            getInstance().addTurtle();
+        }
+    }
+
+    public static Model getInstance() {
+        return INSTANCE;
     }
 }

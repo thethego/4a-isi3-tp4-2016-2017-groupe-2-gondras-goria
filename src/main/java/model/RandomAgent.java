@@ -16,8 +16,8 @@ public class RandomAgent implements Runnable {
     private Model model;
     private Turtle turtle;
 
-    public RandomAgent(Model model, Turtle turtle) {
-        this.model = model;
+    public RandomAgent(Turtle turtle) {
+        this.model = Model.getInstance();
         this.turtle = turtle;
     }
 
