@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by hagoterio on 26/04/17.
  */
 public class Model  extends Observable {
-    private final int INITIAL_NB_TURTLE = 100;
+    private final int INITIAL_NB_TURTLE = 2;
 
     private Turtle currentTurtle;
     private CopyOnWriteArrayList<Turtle> turtles;
@@ -29,15 +29,18 @@ public class Model  extends Observable {
         this.addObstacleCircle(new Point(200, 300), 40);
         this.addObstacleRectangle(new Point(600, 300), 70, 40);
 
+        this.setColor(8);
+        this.addTurtles(INITIAL_NB_TURTLE);
+
         /* add diferent color turtles*/
-        this.setColor(0);
-        this.addTurtles(INITIAL_NB_TURTLE/4);
-        this.setColor(1);
-        this.addTurtles(INITIAL_NB_TURTLE/4);
-        this.setColor(4);
-        this.addTurtles(INITIAL_NB_TURTLE/4);
-        this.setColor(5);
-        this.addTurtles(INITIAL_NB_TURTLE/4);
+//        this.setColor(0);
+//        this.addTurtles(INITIAL_NB_TURTLE/4);
+//        this.setColor(1);
+//        this.addTurtles(INITIAL_NB_TURTLE/4);
+//        this.setColor(4);
+//        this.addTurtles(INITIAL_NB_TURTLE/4);
+//        this.setColor(5);
+//        this.addTurtles(INITIAL_NB_TURTLE/4);
     }
 
     public ArrayList<Obstacle> getObstacles() {
@@ -214,29 +217,13 @@ public class Model  extends Observable {
                             t.getY(),
                             dimension);
                     if (vector.getDist() < dist) {
-                        if (canSee(turtle.getDir(), vector.getAngle(), angle)) neighbors.add(t);
+                        if(Math.abs(turtle.getDir() - vector.getAngle()) <= angle)
+                            neighbors.add(t);
                     }
                 }
             }
         }
         return neighbors;
-    }
-
-    public boolean canSee(double angleTurtle, double angleVoisin, int angle){
-        double angleMax = angleTurtle + angle/2;
-        double angleMin = angleTurtle - angle/2;
-        double angleFix;
-
-        if(angleMax > 360){
-            angleFix = angleMax - 360;
-            return (angleVoisin >= angleMin || angleVoisin <= angleFix);
-        }
-        if(angleMin < 0){
-            angleFix = angleMin + 360;
-            return (angleVoisin <= angleMax || angleVoisin >= angleFix);
-        }
-        else
-            return (angleVoisin <= angleMax && angleVoisin >= angleMin);
     }
 
     public void mouseMoved(int X, int Y){
