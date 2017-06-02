@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by hagoterio on 02/05/17.
@@ -9,7 +8,7 @@ import java.util.Random;
 public class FlockingAgent implements Runnable {
 
     private final static int INITIAL_DIST_NEIGHBORHOOD = 200;
-    private final static int INITIAL_ANGLE_NEIGHBORHOOD = 90;
+    private final static int INITIAL_ANGLE_OF_VIEW = 120;
     private final static int INITIAL_MINIMAL_DIST = 10;
     private final static int INITIAL_TIME_SLEEP = 50;
     private final static int INITIAL_DIST = 10;
@@ -34,7 +33,7 @@ public class FlockingAgent implements Runnable {
     public void run() {
         while (true) {
             try {
-                ArrayList<Turtle> neighbors = (ArrayList<Turtle>) model.getNeighbors(turtle,INITIAL_DIST_NEIGHBORHOOD, INITIAL_ANGLE_NEIGHBORHOOD);
+                ArrayList<Turtle> neighbors = (ArrayList<Turtle>) model.getNeighbors(turtle,INITIAL_DIST_NEIGHBORHOOD, INITIAL_ANGLE_OF_VIEW);
                 doFlockingAction(neighbors);
                 model.notifyView();
                 Thread.sleep(INITIAL_TIME_SLEEP);
@@ -95,7 +94,7 @@ public class FlockingAgent implements Runnable {
     }
 
     private Vector getSeparation(){
-        ArrayList<Turtle> toCloseNeighbors = (ArrayList<Turtle>) model.getNeighbors(turtle,INITIAL_MINIMAL_DIST, INITIAL_ANGLE_NEIGHBORHOOD);
+        ArrayList<Turtle> toCloseNeighbors = (ArrayList<Turtle>) model.getNeighbors(turtle,INITIAL_MINIMAL_DIST, INITIAL_ANGLE_OF_VIEW);
 
         if(toCloseNeighbors.size() > 0){
             Vector v;

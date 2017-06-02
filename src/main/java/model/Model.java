@@ -193,7 +193,7 @@ public class Model  extends Observable {
                             t.getX(),
                             t.getY());
                     if (vector.getDist() < dist) {
-                        if(Math.abs(turtle.getDir() - vector.getAngle()) <= angle)
+                        if(Math.abs(turtle.getDir() - vector.getAngle()) <= angle/2)
                             neighbors.add(t);
                     }
                 }

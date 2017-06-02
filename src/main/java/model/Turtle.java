@@ -43,7 +43,6 @@ public class Turtle{
         y = 0;
         dir = rand.nextInt(360)+1;
         speed = rand.nextInt(9)+1;
-        color = 0;
         visible = false;
         segments.clear();
     }
