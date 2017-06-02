@@ -69,7 +69,7 @@ public class Vector {
         int width = Model.getWidth();
         double newX = getXWithoutDimension(x)%width;
         if(newX < 0){
-            newX = width - newX;
+            newX += width;
         }
         return newX;
 
@@ -79,7 +79,7 @@ public class Vector {
         int height = Model.getHeight();
         double newY = getYWithoutDimension(y)%height;
         if(newY < 0){
-            newY = height - newY;
+            newY += height;
         }
         return newY;
     }

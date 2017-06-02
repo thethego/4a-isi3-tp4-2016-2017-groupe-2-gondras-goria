@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by hagoterio on 26/04/17.
  */
 public class Model  extends Observable {
-    private final int INITIAL_NB_TURTLE = 100;
+    private final int INITIAL_NB_TURTLE = 40;
 
     private Turtle currentTurtle;
     private CopyOnWriteArrayList<Turtle> turtles;
@@ -194,7 +194,9 @@ public class Model  extends Observable {
                             t.getX(),
                             t.getY());
                     if (vector.getDist() < dist) {
-                        if(Math.abs(turtle.getDir() - vector.getAngle()) <= angle/2)
+                        double diffAngle = Math.abs(turtle.getDir() - vector.getAngle());
+                        if(diffAngle > 180) diffAngle = 360 - diffAngle;
+                        if(diffAngle <= angle/2)
                             neighbors.add(t);
                     }
                 }

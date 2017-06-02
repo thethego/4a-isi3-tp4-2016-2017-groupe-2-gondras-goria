@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class FlockingAgent implements Runnable {
 
     private final static int INITIAL_DIST_NEIGHBORHOOD = 200;
-    private final static int INITIAL_ANGLE_OF_VIEW = 120;
+    private final static int INITIAL_ANGLE_OF_VIEW = 140;
     private final static int INITIAL_MINIMAL_DIST = 10;
     private final static int INITIAL_TIME_SLEEP = 50;
     private final static int INITIAL_DIST = 10;
