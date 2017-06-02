@@ -15,15 +15,16 @@ public class SimpleLogo extends JFrame implements ActionListener {
     private static final Dimension HGAP = new Dimension(5,1);
     private final int width = 1024;
     private final int height = 600;
-    private final int nbTurtles = 100;
 
+    private int nbTurtles;
     private DrawSheet sheet;
     private JTextField inputValue;
     private Controller controller;
 
 
-    public SimpleLogo() {
+    public SimpleLogo(int nbTurtles) {
         super("un logo tout simple");
+        this.nbTurtles = nbTurtles;
         logoInit();
 
         addWindowListener(new WindowAdapter() {
