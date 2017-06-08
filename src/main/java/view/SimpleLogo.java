@@ -58,6 +58,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
         if(mode<1){
             System.exit(0);
         }
+        this.setResizable(false);
 
         // Boutons
         JToolBar toolBar = new JToolBar();
